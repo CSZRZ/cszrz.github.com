@@ -1,0 +1,511 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="初识 React(一)了解一下 React ，看了下官网的介绍，主要翻译摘录了一些概念、
+状态和生命周期把函数式组件转换为类组件转换步骤主要5步：
+
+创建一个继承自 React.Component 类的 ES6 class 同名类
+添加一个名为 render() 的空方法
+把原函数中的所有内容移至 render() 方法中
+在 render() 方法中使用 this.pros 替代 pros
+删除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DevZhang的博客小屋">
+<meta property="og:url" content="http://yoursite.com/2017/10/13/React 基础概念(一)/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="初识 React(一)了解一下 React ，看了下官网的介绍，主要翻译摘录了一些概念、
+状态和生命周期把函数式组件转换为类组件转换步骤主要5步：
+
+创建一个继承自 React.Component 类的 ES6 class 同名类
+添加一个名为 render() 的空方法
+把原函数中的所有内容移至 render() 方法中
+在 render() 方法中使用 this.pros 替代 pros
+删除">
+<meta property="og:updated_time" content="2017-10-15T14:01:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DevZhang的博客小屋">
+<meta name="twitter:description" content="初识 React(一)了解一下 React ，看了下官网的介绍，主要翻译摘录了一些概念、
+状态和生命周期把函数式组件转换为类组件转换步骤主要5步：
+
+创建一个继承自 React.Component 类的 ES6 class 同名类
+添加一个名为 render() 的空方法
+把原函数中的所有内容移至 render() 方法中
+在 render() 方法中使用 this.pros 替代 pros
+删除">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/10/13/React 基础概念(一)/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-13T13:58:45.000Z" itemprop="datePublished"> 发表于 2017-10-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#初识-React-一"><span class="toc-number">1.</span> <span class="toc-text">初识 React(一)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#状态和生命周期"><span class="toc-number">1.1.</span> <span class="toc-text">状态和生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把函数式组件转换为类组件"><span class="toc-number">1.1.1.</span> <span class="toc-text">把函数式组件转换为类组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在类组件中添加本地状态"><span class="toc-number">1.1.2.</span> <span class="toc-text">在类组件中添加本地状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在类中添加声明周期方法"><span class="toc-number">1.1.3.</span> <span class="toc-text">在类中添加声明周期方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正确使用-State"><span class="toc-number">1.1.4.</span> <span class="toc-text">正确使用 State</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不能直接修改状态"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">不能直接修改状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#状态的更新可能是异步的"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">状态的更新可能是异步的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#状态更新合并"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">状态更新合并</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据向下流动"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">数据向下流动</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件处理"><span class="toc-number">1.2.</span> <span class="toc-text">事件处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件渲染"><span class="toc-number">1.3.</span> <span class="toc-text">条件渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素变量"><span class="toc-number">1.3.1.</span> <span class="toc-text">元素变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用逻辑-amp-amp-操作符的内联-if-用法"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用逻辑 && 操作符的内联 if 用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用条件操作符的内联-if-Else"><span class="toc-number">1.3.3.</span> <span class="toc-text">使用条件操作符的内联 if-Else</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防止组件渲染"><span class="toc-number">1.3.4.</span> <span class="toc-text">防止组件渲染</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表和键"><span class="toc-number">1.4.</span> <span class="toc-text">列表和键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多组件渲染"><span class="toc-number">1.4.1.</span> <span class="toc-text">多组件渲染</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="初识-React-一"><a href="#初识-React-一" class="headerlink" title="初识 React(一)"></a>初识 React(一)</h1><p>了解一下 React ，看了下官网的介绍，主要翻译摘录了一些概念、</p>
+<h2 id="状态和生命周期"><a href="#状态和生命周期" class="headerlink" title="状态和生命周期"></a>状态和生命周期</h2><h3 id="把函数式组件转换为类组件"><a href="#把函数式组件转换为类组件" class="headerlink" title="把函数式组件转换为类组件"></a>把函数式组件转换为类组件</h3><p>转换步骤主要5步：</p>
+<ol>
+<li>创建一个继承自 React.Component 类的 ES6 class 同名类</li>
+<li>添加一个名为 render() 的空方法</li>
+<li>把原函数中的所有内容移至 render() 方法中</li>
+<li>在 render() 方法中使用 this.pros 替代 pros</li>
+<li>删除保留的空函数声明</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Clock extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!&lt;/h1&gt;</span><br><span class="line">        &lt;h2&gt;It is &#123;this.props.date.toLocaleTimeString()&#125;.&lt;/h2&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在类组件中添加本地状态"><a href="#在类组件中添加本地状态" class="headerlink" title="在类组件中添加本地状态"></a>在类组件中添加本地状态</h3><ol>
+<li>替换 render() 方法中的 this.props.date 为 this.state.date：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Clock extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!&lt;/h1&gt;</span><br><span class="line">        &lt;h2&gt;It is &#123;this.state.date.toLocaleTimeString()&#125;.&lt;/h2&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加一个类构造函数，初始化 this.state:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Clock extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;date: new Date()&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!&lt;/h1&gt;</span><br><span class="line">        &lt;h2&gt;It is &#123;this.state.date.toLocaleTimeString()&#125;.&lt;/h2&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>移除 <clock> 元素中的 date 属性:</clock></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Clock /&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>最后的结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Clock extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;date: new Date()&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!&lt;/h1&gt;</span><br><span class="line">        &lt;h2&gt;It is &#123;this.state.date.toLocaleTimeString()&#125;.&lt;/h2&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Clock /&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="在类中添加声明周期方法"><a href="#在类中添加声明周期方法" class="headerlink" title="在类中添加声明周期方法"></a>在类中添加声明周期方法</h3><p>在一个具有很多组件的应用程序中，在组件被销毁时释放所占有的资源是很重要。</p>
+<ul>
+<li>当第一次渲染到 DOM 时，对应挂载(mounting)<br><code>componentDidMount() { }</code></li>
+<li>当产生的 DOM 被销毁时，对应卸载(unmounting)<br><code>componentWillUnmount() { }</code></li>
+</ul>
+<h3 id="正确使用-State"><a href="#正确使用-State" class="headerlink" title="正确使用 State"></a>正确使用 State</h3><h4 id="不能直接修改状态"><a href="#不能直接修改状态" class="headerlink" title="不能直接修改状态"></a>不能直接修改状态</h4><p>下面这个例子将不会重新渲染组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Wrong</span><br><span class="line">this.state.comment = &apos;Hello&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>用 setState() 替代：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Correct</span><br><span class="line">this.setState(&#123;comment: &apos;Hello&apos;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>唯一可以声明 this.state 的地方就是构造函数</p>
+<h4 id="状态的更新可能是异步的"><a href="#状态的更新可能是异步的" class="headerlink" title="状态的更新可能是异步的"></a>状态的更新可能是异步的</h4><p>React 为了性能可能会将多个 setState() 调用合并为一次更新，因为 this.pros 和 this.state 可能是异步更新的，所以你不能依赖他们的值计算下一个状态:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Wrong</span><br><span class="line">this.setState(&#123;</span><br><span class="line">  counter: this.state.counter + this.props.increment,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>要弥补这个问题，使用另一种 setState() 的形式，它接受一个函数而不是一个对象。这个函数将接收前一个状态作为第一个参数，应用更新时的 props 作为第二个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Correct</span><br><span class="line">this.setState((prevState, props) =&gt; (&#123;</span><br><span class="line">  counter: prevState.counter + props.increment</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<h4 id="状态更新合并"><a href="#状态更新合并" class="headerlink" title="状态更新合并"></a>状态更新合并</h4><p>当你调用 setState()， React 将合并你提供的对象到当前的状态中</p>
+<p>例如，你的 state 可能包含几个独立的变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">  super(props);</span><br><span class="line">  this.state = &#123;</span><br><span class="line">    posts: [],</span><br><span class="line">    comments: []</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后通过调用独立的 setState() 调用分别更新它们：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">    fetchPosts().then(response =&gt; &#123;</span><br><span class="line">      this.setState(&#123;</span><br><span class="line">        posts: response.posts</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    fetchComments().then(response =&gt; &#123;</span><br><span class="line">      this.setState(&#123;</span><br><span class="line">        comments: response.comments</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>合并是浅合并，所以 this.setState({comments}) 不会改变 this.state.posts 的值，但会完全替换this.state.comments 的值。</p>
+<h4 id="数据向下流动"><a href="#数据向下流动" class="headerlink" title="数据向下流动"></a>数据向下流动</h4><p>无论作为父组件还是子组件，它都无法获悉一个组件是否有状态，同时也不需要关心另一个组件是定义为函数组件还是类组件。</p>
+<p>这就是 state(状态) 经常被称为 本地状态 或 封装状态的原因。 它不能被拥有并设置它的组件 以外的任何组件访问。</p>
+<p>一个组件可以选择将 state(状态) 向下传递，作为其子组件的 props(属性)：</p>
+<p>这通常称为一个“从上到下”，或者“单向”的数据流。任何 state(状态) 始终由某个特定组件所有，并且从该 state(状态) 导出的任何数据 或 UI 只能影响树中 “下方” 的组件。</p>
+<p>如果把组件树想像为 props(属性) 的瀑布，所有组件的 state(状态) 就如同一个额外的水源汇入主流，且只能随着主流的方向向下流动。</p>
+<h2 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h2><p>通过 React 元素处理事件和通过 DOM 处理事件非常类似，不过有一些区别：</p>
+<ul>
+<li>React 事件使用驼峰命名，而不是全部小写</li>
+<li>通过 JSX ，你传递一个函数作为事件处理程序，而不是字符串<br>例如，hmtl 中：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=&quot;activateLasers()&quot;&gt;</span><br><span class="line">  Activate Lasers</span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在 React 中些许不同：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;activateLasers&#125;&gt;</span><br><span class="line">  Activate Lasers</span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure></p>
+<p>另一个区别是，在 React 中你不能通过 return false 阻止默认行为，你必须明确调用 preventDefault<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;#&quot; onclick=&quot;console.log(&apos;The link was clicked.&apos;); return false&quot;&gt;</span><br><span class="line">  Click me</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在 React 中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function ActionLink() &#123;</span><br><span class="line">  function handleClick(e) &#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    console.log(&apos;The link was clicked.&apos;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;a href=&quot;#&quot; onClick=&#123;handleClick&#125;&gt;</span><br><span class="line">      Click me</span><br><span class="line">    &lt;/a&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当使用 React 时，你通常不需要调用 addEventListener 在 DOM 元素被创建后添加事件监听，相反，只要在元素初始渲染的时候提供一个监听器就行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Toggle extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;isToggleOn: true&#125;;</span><br><span class="line"></span><br><span class="line">    // This binding is necessary to make `this` work in the callback</span><br><span class="line">    this.handleClick = this.handleClick.bind(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick() &#123;</span><br><span class="line">    this.setState(prevState =&gt; (&#123;</span><br><span class="line">      isToggleOn: !prevState.isToggleOn</span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;button onClick=&#123;this.handleClick&#125;&gt;</span><br><span class="line">        &#123;this.state.isToggleOn ? &apos;ON&apos; : &apos;OFF&apos;&#125;</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Toggle /&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><h3 id="元素变量"><a href="#元素变量" class="headerlink" title="元素变量"></a>元素变量</h3><p>可以通过变量来存储元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class LoginControl extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.handleLoginClick = this.handleLoginClick.bind(this);</span><br><span class="line">    this.handleLogoutClick = this.handleLogoutClick.bind(this);</span><br><span class="line">    this.state = &#123;isLoggedIn: false&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleLoginClick() &#123;</span><br><span class="line">    this.setState(&#123;isLoggedIn: true&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleLogoutClick() &#123;</span><br><span class="line">    this.setState(&#123;isLoggedIn: false&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    const isLoggedIn = this.state.isLoggedIn;</span><br><span class="line"></span><br><span class="line">    let button = null;</span><br><span class="line">    if (isLoggedIn) &#123;</span><br><span class="line">      button = &lt;LogoutButton onClick=&#123;this.handleLogoutClick&#125; /&gt;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      button = &lt;LoginButton onClick=&#123;this.handleLoginClick&#125; /&gt;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Greeting isLoggedIn=&#123;isLoggedIn&#125; /&gt;</span><br><span class="line">        &#123;button&#125;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;LoginControl /&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="使用逻辑-amp-amp-操作符的内联-if-用法"><a href="#使用逻辑-amp-amp-操作符的内联-if-用法" class="headerlink" title="使用逻辑 &amp;&amp; 操作符的内联 if 用法"></a>使用逻辑 &amp;&amp; 操作符的内联 if 用法</h3><p>你可以在 JSX 中插入任何表达式，方法是将其包裹在花括号中。这也包括 JS 逻辑 &amp;&amp; 运算符:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function Mailbox(props) &#123;</span><br><span class="line">  const unreadMessages = props.unreadMessages;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h1&gt;Hello!&lt;/h1&gt;</span><br><span class="line">      &#123;unreadMessages.length &gt; 0 &amp;&amp;</span><br><span class="line">        &lt;h2&gt;</span><br><span class="line">          You have &#123;unreadMessages.length&#125; unread messages.</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">      &#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const messages = [&apos;React&apos;, &apos;Re: React&apos;, &apos;Re:Re: React&apos;];</span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Mailbox unreadMessages=&#123;messages&#125; /&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>它可以正常运行，因为在 JavaScript 中， true &amp;&amp; expression 总是会评估为 expression ，而 false &amp;&amp; expression 总是执行为 false 。</p>
+<h3 id="使用条件操作符的内联-if-Else"><a href="#使用条件操作符的内联-if-Else" class="headerlink" title="使用条件操作符的内联 if-Else"></a>使用条件操作符的内联 if-Else</h3><p>condition ? true : false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  const isLoggedIn = this.state.isLoggedIn;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      The user is &lt;b&gt;&#123;isLoggedIn ? &apos;currently&apos; : &apos;not&apos;&#125;&lt;/b&gt; logged in.</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="防止组件渲染"><a href="#防止组件渲染" class="headerlink" title="防止组件渲染"></a>防止组件渲染</h3><p>在极少数情况下，您可能希望组件隐藏自身，即使它是由另一个组件渲染的。为此，返回 null 而不是其渲染输出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function WarningBanner(props) &#123;</span><br><span class="line">  if (!props.warn) &#123;</span><br><span class="line">    return null;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div className=&quot;warning&quot;&gt;</span><br><span class="line">      Warning!</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Page extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;showWarning: true&#125;</span><br><span class="line">    this.handleToggleClick = this.handleToggleClick.bind(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleToggleClick() &#123;</span><br><span class="line">    this.setState(prevState =&gt; (&#123;</span><br><span class="line">      showWarning: !prevState.showWarning</span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;WarningBanner warn=&#123;this.state.showWarning&#125; /&gt;</span><br><span class="line">        &lt;button onClick=&#123;this.handleToggleClick&#125;&gt;</span><br><span class="line">          &#123;this.state.showWarning ? &apos;Hide&apos; : &apos;Show&apos;&#125;</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Page /&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>从组件的 render 方法返回 null 不会影响组件生命周期方法的触发。 例如， componentWillUpdate 和 componentDidUpdate 仍将被调用。</p>
+<h2 id="列表和键"><a href="#列表和键" class="headerlink" title="列表和键"></a>列表和键</h2><h3 id="多组件渲染"><a href="#多组件渲染" class="headerlink" title="多组件渲染"></a>多组件渲染</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const numbers = [1, 2, 3, 4, 5];</span><br><span class="line">const listItems = numbers.map((number) =&gt;</span><br><span class="line">  &lt;li&gt;&#123;number&#125;&lt;/li&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;ul&gt;&#123;listItems&#125;&lt;/ul&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/10/13/React 基础概念(一)/" data-title="DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/20/iOS笔记-三-——UIAlertController的简单用法/"  title="iOS笔记(三)——UIAlertController的简单用法">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS笔记(三)——UIAlertController的简单用法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#初识-React-一"><span class="toc-number">1.</span> <span class="toc-text">初识 React(一)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#状态和生命周期"><span class="toc-number">1.1.</span> <span class="toc-text">状态和生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把函数式组件转换为类组件"><span class="toc-number">1.1.1.</span> <span class="toc-text">把函数式组件转换为类组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在类组件中添加本地状态"><span class="toc-number">1.1.2.</span> <span class="toc-text">在类组件中添加本地状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在类中添加声明周期方法"><span class="toc-number">1.1.3.</span> <span class="toc-text">在类中添加声明周期方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正确使用-State"><span class="toc-number">1.1.4.</span> <span class="toc-text">正确使用 State</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不能直接修改状态"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">不能直接修改状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#状态的更新可能是异步的"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">状态的更新可能是异步的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#状态更新合并"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">状态更新合并</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据向下流动"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">数据向下流动</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件处理"><span class="toc-number">1.2.</span> <span class="toc-text">事件处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件渲染"><span class="toc-number">1.3.</span> <span class="toc-text">条件渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素变量"><span class="toc-number">1.3.1.</span> <span class="toc-text">元素变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用逻辑-amp-amp-操作符的内联-if-用法"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用逻辑 && 操作符的内联 if 用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用条件操作符的内联-if-Else"><span class="toc-number">1.3.3.</span> <span class="toc-text">使用条件操作符的内联 if-Else</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防止组件渲染"><span class="toc-number">1.3.4.</span> <span class="toc-text">防止组件渲染</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表和键"><span class="toc-number">1.4.</span> <span class="toc-text">列表和键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多组件渲染"><span class="toc-number">1.4.1.</span> <span class="toc-text">多组件渲染</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
