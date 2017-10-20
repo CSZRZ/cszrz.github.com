@@ -1,0 +1,486 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>KVC 和 KVO | DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="KVC (Key-Value-Coding)KVC 是一种基于 NSKeyValueCoding 非正式协议的机制，能让我们直接使用一个或一串字符串标识符去访问，操作类的属性，对于 KVC ，Cocoa 会自动装箱和开箱标量值,常用的方法：
+12345- (nullable id)valueForKey:(NSString *)key;- (void)setValue:(nullable id)v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVC 和 KVO">
+<meta property="og:url" content="http://yoursite.com/2017/10/20/KVC 和 KVO/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="KVC (Key-Value-Coding)KVC 是一种基于 NSKeyValueCoding 非正式协议的机制，能让我们直接使用一个或一串字符串标识符去访问，操作类的属性，对于 KVC ，Cocoa 会自动装箱和开箱标量值,常用的方法：
+12345- (nullable id)valueForKey:(NSString *)key;- (void)setValue:(nullable id)v">
+<meta property="og:updated_time" content="2017-10-20T08:45:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KVC 和 KVO">
+<meta name="twitter:description" content="KVC (Key-Value-Coding)KVC 是一种基于 NSKeyValueCoding 非正式协议的机制，能让我们直接使用一个或一串字符串标识符去访问，操作类的属性，对于 KVC ，Cocoa 会自动装箱和开箱标量值,常用的方法：
+12345- (nullable id)valueForKey:(NSString *)key;- (void)setValue:(nullable id)v">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/10/20/KVC 和 KVO/" title="KVC 和 KVO" itemprop="url">KVC 和 KVO</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-20T08:44:52.000Z" itemprop="datePublished"> 发表于 2017-10-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KVC-Key-Value-Coding"><span class="toc-number">1.</span> <span class="toc-text">KVC (Key-Value-Coding)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO-Key-Value-Observing"><span class="toc-number">2.</span> <span class="toc-text">KVO (Key-Value Observing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理"><span class="toc-number">3.</span> <span class="toc-text">实现原理</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="KVC-Key-Value-Coding"><a href="#KVC-Key-Value-Coding" class="headerlink" title="KVC (Key-Value-Coding)"></a>KVC (Key-Value-Coding)</h2><p>KVC 是一种基于 NSKeyValueCoding 非正式协议的机制，能让我们直接使用一个或一串字符串标识符去访问，操作类的属性，对于 KVC ，Cocoa 会自动装箱和开箱标量值,常用的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (nullable id)valueForKey:(NSString *)key;</span><br><span class="line">- (void)setValue:(nullable id)value forKey:(NSString *)key;</span><br><span class="line"></span><br><span class="line">- (nullable id)valueForKeyPath:(NSString *)keyPath;</span><br><span class="line">- (void)setValue:(nullable id)value forKeyPath:(NSString *)keyPath;</span><br></pre></td></tr></table></figure>
+<p>通过这些方法可以直接获取或者设置一个类的属性</p>
+<ul>
+<li><p>其中 valueForKey 会先查找以参数名命名的（-key或者-isKey）的 getter 方法。如果没有则会寻找名称为 _key 或 key 的实例变量。在运行时中使用元数据打开对象并进入其中查找需要的信息。通过使用 KVC，没有相关 getter 方法也能获取对象值,不需要通过对象指针来直接访问实例变量 </p>
+</li>
+<li><p>setValue:forKey: 方法和上面类似，也是先查找 setter 方法，不存在就查找实例对象</p>
+</li>
+<li><p>对于键路径 valueForKeyPath, 可以在对象和不同的变量名称之间用圆点分开，深度取决于对象图的复杂度。</p>
+</li>
+<li><p>setValue:forUndefinedKey: 处理未定义的键</p>
+</li>
+</ul>
+<h2 id="KVO-Key-Value-Observing"><a href="#KVO-Key-Value-Observing" class="headerlink" title="KVO (Key-Value Observing)"></a>KVO (Key-Value Observing)</h2><p>KVO 是 Cocoa 提供的一种基于 KVC 的机制，允许一个对象去监听另一个对象的某个属性，当该属性改变时系统会去通知该监听的对象（不是被监听的对象）</p>
+<ol>
+<li>添加监听</li>
+</ol>
+<p>通过以下方法添加一个监听者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>observer: 添加的监听这对象，当属性发生改变时就会去通知该对象。</p>
+</li>
+<li><p>keyPath: 需要被监听的属性，和 KVC 的规则一样，但是不能呢传 nil，可以用 NSStringFromSelector(@selector(propertyName)) 替代传属性同名的字符串避免出错</p>
+</li>
+<li><p>options: 配置选项，指明通知发出的时机和通知响应方法。- observeValueForKeyPath:ofObject:change:context:的change字典中包含哪些值，它的取值有4个，定义在NSKeyValueObservingOptions中，可以用|符号连接，如下：</p>
+</li>
+</ul>
+<p>1&gt; NSKeyValueObservingOptionNew：指明接受通知方法参数中的change字典中应该包含改变后的新值。</p>
+<p>2&gt;NSKeyValueObservingOptionOld: 指明接受通知方法参数中的change字典中应该包含改变前的旧值。</p>
+<p>3&gt;NSKeyValueObservingOptionInitial: 当指定了这个选项时，在addObserver:forKeyPath:options:context:消息被发出去后，甚至不用等待这个消息返回，监听者对象会马上收到一个通知。这种通知只会发送一次，你可以利用这种“一次性“的通知来确定要监听属性的初始值。当同时制定这3个选项时，这种通知的change字典中只会包含新值，而不会包含旧值。虽然这时候的新值实际上是改变前的’旧值’，但是这个值对于监听者来说是新的。</p>
+<p>4&gt;NSKeyValueObservingOptionPrior：当指定了这个选项时，在被监听的属性被改变前，监听者对象就会收到一个通知（一般的通知发出时机都是在属性改变后，虽然change字典中包含了新值和旧值，但是通知还是在属性改变后才发出），这个通知会包含一个NSKeyValueChangeNotificationIsPriorKeykey，其对应的值为一个NSNumber类型的YES。当同时指定该值、new和old的话，change字典会包含旧值而不会包含新值。你可以在这个通知中调用- (void)willChangeValueForKey:(NSString *)key;</p>
+<ul>
+<li>context: 是一个可选的参数，可以传任何数据，这个参数最后会被传到监听者的响应方法中，可以用来区分不同通知，也可以用来传值。如果用 context 来区分不同的通知，比如继承父类的子类，父类子类都有监听通知，这个时候可以申明一个静态变量，其保存它自己的地址，以此区分:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static void *ContextForKVO = &amp;ContextForKVO;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>接受通知</li>
+</ol>
+<p>每一个监听者对象必须实现以下方法来接受通知：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change context:(nullable void *)context;</span><br></pre></td></tr></table></figure>
+<p>change 参数是一个字典，有5个常量作为它的 key：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FOUNDATION_EXPORT NSKeyValueChangeKey const NSKeyValueChangeKindKey;</span><br><span class="line">FOUNDATION_EXPORT NSKeyValueChangeKey const NSKeyValueChangeNewKey;</span><br><span class="line">FOUNDATION_EXPORT NSKeyValueChangeKey const NSKeyValueChangeOldKey;</span><br><span class="line">FOUNDATION_EXPORT NSKeyValueChangeKey const NSKeyValueChangeIndexesKey;</span><br><span class="line">FOUNDATION_EXPORT NSKeyValueChangeKey const NSKeyValueChangeNotificationIsPriorKey</span><br></pre></td></tr></table></figure>
+<ol>
+<li>移除监听</li>
+</ol>
+<p>当一个监听者完成了它的监听任务之后，就需要注销(移除)监听者，调用以下2个方法来移除监听。通常会在-dealloc方法或者-observeValueForKeyPath:ofObject:change:context:方法中移除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath context:(nullable void *)context</span><br><span class="line">或者</span><br><span class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</span><br></pre></td></tr></table></figure>
+<p>另外，如果需要手动发送通知的话，（正常自动通知由 NSObject 默认实现了） 需要重写 NSobject 的一个类方法，用来指明不想让哪个属性的改变通知自动发出。<code>+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey</code></p>
+<p>然后重写想要手动发送通知的属性的 setter 方法，改变前后分别调用willChangeValueForKey:和didChangeValueForKey:方法。</p>
+<p>最后还有种情况，一个属性的改变会导致其他1个或多个属性的改变时，这时候我们需要去重写方法去指明属性之间的依赖关系。有以下 2 种方式：</p>
+<ol>
+<li>重写keyPathsForValuesAffectingValueForKey:方法</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key &#123;</span><br><span class="line"></span><br><span class="line">  NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];</span><br><span class="line"></span><br><span class="line">  if ([key isEqualToString:@&quot;fullName&quot;]) &#123;</span><br><span class="line">      NSArray *affectingKeys = @[@&quot;lastName&quot;, @&quot;firstName&quot;];</span><br><span class="line">      keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];</span><br><span class="line">  &#125;</span><br><span class="line">  return keyPaths;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>keyPathsForValuesAffecting<key>的类方法，<key>是依赖于其他值的属性名（首字母大写）</key></key></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (NSSet *)keyPathsForValuesAffectingFullName &#123;</span><br><span class="line">  return [NSSet setWithObjects:@&quot;lastName&quot;, @&quot;firstName&quot;, nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>对于KVO实现的原理，苹果官方文档描述的比较少，从中只能知道苹果使用了一张叫做isa-swizzling的黑魔法…</p>
+<p>其实，当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类（类名就是在该类的前面加上NSKVONotifying_ 前缀），在这个派生类中重写基类中任何被观察属性的 setter 方法。</p>
+<p>派生类在被重写的 setter 方法实现真正的通知机制，就如前面手动实现键值观察那样，调用willChangeValueForKey:和didChangeValueForKey:方法。这么做是基于设置属性会调用 setter 方法，而通过重写就获得了 KVO 需要的通知机制。当然前提是要通过遵循 KVO 的属性设置方式来变更属性值，如果仅是直接修改属性对应的成员变量，是无法实现 KVO 的。</p>
+<p>同时派生类还重写了 class 方法以“欺骗”外部调用者它就是起初的那个类。然后系统将这个对象的 isa 指针指向这个新诞生的派生类，因此这个对象就成为该派生类的对象了，因而在该对象上对 setter 的调用就会调用重写的 setter，从而激活键值通知机制。此外，派生类还重写了 dealloc 方法来释放资源。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/10/20/KVC 和 KVO/" data-title="KVC 和 KVO | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/10/15/React 基础概念(一)/"  title="React 基础概念(一)">
+ <strong>下一篇：</strong><br/> 
+ <span>React 基础概念(一)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KVC-Key-Value-Coding"><span class="toc-number">1.</span> <span class="toc-text">KVC (Key-Value-Coding)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO-Key-Value-Observing"><span class="toc-number">2.</span> <span class="toc-text">KVO (Key-Value Observing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理"><span class="toc-number">3.</span> <span class="toc-text">实现原理</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
