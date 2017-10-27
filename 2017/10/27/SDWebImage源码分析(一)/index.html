@@ -21,7 +21,7 @@
 打开工程目录，可">
 <meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/SDWebImage%E6%A1%86%E6%9E%B6%E7%BB%93%E6%9E%84.png">
 <meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/SDWebImage%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95.png">
-<meta property="og:updated_time" content="2017-10-27T09:32:27.000Z">
+<meta property="og:updated_time" content="2017-10-27T09:36:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SDWebImage源码分析(一)">
 <meta name="twitter:description" content="介绍最近都在尝试阅读源码以此来弥补一下挥霍的时光，SDWebImage 可以说是一个开发必备的库了，主要提供了 UIImageView 和 UIButton 的异步下载以及缓存功能。之前就有人推荐过 SDWebImage 这个库，说是非常值得阅读学习，然而之前太过懒惰而且浮躁，难以静心去阅读代码。现在看了下，刚打开项目目录，就感觉整个文件目录非常的清晰，现在就来一点点分析下去！
@@ -98,7 +98,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SDWebImageCompat（兼容类）"><span class="toc-number">2.</span> <span class="toc-text">SDWebImageCompat（兼容类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OBJC-GC"><span class="toc-number">2.1.</span> <span class="toc-text">OBJC_GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">2.2.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SDWebImageCompat（兼容类）"><span class="toc-number">2.</span> <span class="toc-text">SDWebImageCompat（兼容类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GC"><span class="toc-number">2.1.</span> <span class="toc-text">GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">2.2.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -109,7 +109,7 @@
 <p>下面就一个个目录来说！</p>
 <h1 id="SDWebImageCompat（兼容类）"><a href="#SDWebImageCompat（兼容类）" class="headerlink" title="SDWebImageCompat（兼容类）"></a>SDWebImageCompat（兼容类）</h1><p>Compat 顾名思义兼容性，所以整个类主要处理兼容性的问题，兼容 Apple 其他的设备，毕竟现在 Apple 也和 Android 一样，愈发生态多样性，除了手机上 iOS 系统，还要兼容 TV 和 Watch。</p>
 <p>首先引入 <code>#import &lt;TargetConditionals.h&gt;</code> 该系统文件定义了一些宏使得我们可以区分各个平台</p>
-<h2 id="OBJC-GC"><a href="#OBJC-GC" class="headerlink" title="OBJC_GC"></a><strong>OBJC_GC</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#ifdef __OBJC_GC__</span><br><span class="line">    #error SDWebImage does not support Objective-C Garbage Collection</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">````  </span><br><span class="line"></span><br><span class="line">SDWebImage不支持垃圾回收机制，垃圾回收(Gargage-collection)是Objective-c提供的一种自动内存回收机制。在iPad/iPhone环境中不支持垃圾回收功能。</span><br><span class="line">当启动这个功能后，所有的retain,autorelease,release和dealloc方法都将被系统忽略。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## SD_MAC</span><br></pre></td></tr></table></figure>
+<h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#ifdef __OBJC_GC__</span><br><span class="line">    #error SDWebImage does not support Objective-C Garbage Collection</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">````  </span><br><span class="line"></span><br><span class="line">SDWebImage不支持垃圾回收机制，垃圾回收(Gargage-collection)是Objective-c提供的一种自动内存回收机制。在iPad/iPhone环境中不支持垃圾回收功能。</span><br><span class="line">当启动这个功能后，所有的retain,autorelease,release和dealloc方法都将被系统忽略。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## SD_MAC</span><br></pre></td></tr></table></figure>
 <p>// Apple’s defines from TargetConditionals.h are a bit weird.<br>// Seems like TARGET_OS_MAC is always defined (on all platforms).<br>// To determine if we are running on OSX, we can only rely on TARGET_OS_IPHONE=0 and all the other platforms</p>
 <p>#if !TARGET_OS_IPHONE &amp;&amp; !TARGET_OS_IOS &amp;&amp; !TARGET_OS_TV &amp;&amp; !TARGET_OS_WATCH</p>
 <pre><code>#define SD_MAC 1
@@ -872,7 +872,7 @@ if (completionBlock) {
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SDWebImageCompat（兼容类）"><span class="toc-number">2.</span> <span class="toc-text">SDWebImageCompat（兼容类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OBJC-GC"><span class="toc-number">2.1.</span> <span class="toc-text">OBJC_GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">2.2.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SDWebImageCompat（兼容类）"><span class="toc-number">2.</span> <span class="toc-text">SDWebImageCompat（兼容类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GC"><span class="toc-number">2.1.</span> <span class="toc-text">GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">2.2.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
  
   </div>
 
