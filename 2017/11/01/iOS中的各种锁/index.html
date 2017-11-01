@@ -1,0 +1,488 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iOS 中的几种常用锁 | DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="在实际的开发过程中，目前为止我基本都没有使用过锁，但是在看第三方框架源码的时候，发现不少地方都用到锁，而且使用的还各不相同，所以有必要整理下 iOS 中的各种锁，由于涉及到许多底层的知识，这块确实很薄弱，所以这一篇主要就是简单介绍下各种锁。
+预备知识线程调度计算机通常只有一个CPU,在任意时刻只能执行一条机器指令,每个线程只有获得CPU的使用权才能执行指令.所谓多线程的并发运行,其实是指从宏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 中的几种常用锁">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/iOS中的各种锁/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="在实际的开发过程中，目前为止我基本都没有使用过锁，但是在看第三方框架源码的时候，发现不少地方都用到锁，而且使用的还各不相同，所以有必要整理下 iOS 中的各种锁，由于涉及到许多底层的知识，这块确实很薄弱，所以这一篇主要就是简单介绍下各种锁。
+预备知识线程调度计算机通常只有一个CPU,在任意时刻只能执行一条机器指令,每个线程只有获得CPU的使用权才能执行指令.所谓多线程的并发运行,其实是指从宏">
+<meta property="og:image" content="https://blog.ibireme.com/wp-content/uploads/2016/01/lock_benchmark.png">
+<meta property="og:updated_time" content="2017-11-01T10:37:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 中的几种常用锁">
+<meta name="twitter:description" content="在实际的开发过程中，目前为止我基本都没有使用过锁，但是在看第三方框架源码的时候，发现不少地方都用到锁，而且使用的还各不相同，所以有必要整理下 iOS 中的各种锁，由于涉及到许多底层的知识，这块确实很薄弱，所以这一篇主要就是简单介绍下各种锁。
+预备知识线程调度计算机通常只有一个CPU,在任意时刻只能执行一条机器指令,每个线程只有获得CPU的使用权才能执行指令.所谓多线程的并发运行,其实是指从宏">
+<meta name="twitter:image" content="https://blog.ibireme.com/wp-content/uploads/2016/01/lock_benchmark.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/11/01/iOS中的各种锁/" title="iOS 中的几种常用锁" itemprop="url">iOS 中的几种常用锁</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-01T03:31:22.000Z" itemprop="datePublished"> 发表于 2017-11-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#预备知识"><span class="toc-number">1.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程调度"><span class="toc-number">1.1.</span> <span class="toc-text">线程调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间片轮转算法"><span class="toc-number">1.2.</span> <span class="toc-text">时间片轮转算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原子操作"><span class="toc-number">1.3.</span> <span class="toc-text">原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自旋锁（spin-lock）"><span class="toc-number">1.4.</span> <span class="toc-text">自旋锁（spin lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#互斥锁"><span class="toc-number">1.5.</span> <span class="toc-text">互斥锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#各种锁"><span class="toc-number">2.</span> <span class="toc-text">各种锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSSpinLock"><span class="toc-number">2.1.</span> <span class="toc-text">OSSpinLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch-semaphore-t"><span class="toc-number">2.2.</span> <span class="toc-text">dispatch_semaphore_t</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pthread-mutex"><span class="toc-number">2.3.</span> <span class="toc-text">pthread_mutex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSLock"><span class="toc-number">2.4.</span> <span class="toc-text">NSLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSCondition"><span class="toc-number">2.5.</span> <span class="toc-text">NSCondition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSRecursiveLock"><span class="toc-number">2.6.</span> <span class="toc-text">NSRecursiveLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSConditionLock"><span class="toc-number">2.7.</span> <span class="toc-text">NSConditionLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized"><span class="toc-number">2.8.</span> <span class="toc-text">@synchronized</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>在实际的开发过程中，目前为止我基本都没有使用过锁，但是在看第三方框架源码的时候，发现不少地方都用到锁，而且使用的还各不相同，所以有必要整理下 iOS 中的各种锁，由于涉及到许多底层的知识，这块确实很薄弱，所以这一篇主要就是简单介绍下各种锁。</p>
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><h3 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h3><p>计算机通常只有一个CPU,在任意时刻只能执行一条机器指令,每个线程只有获得CPU的使用权才能执行指令.所谓多线程的并发运行,其实是指从宏观上看,各个线程轮流获得CPU的使用权,分别执行各自的任务.在运行池中,会有多个处于就绪状态的线程在等待CPU,JAVA虚拟机的一项任务就是负责线程的调度,线程调度是指按照特定机制为多个线程分配CPU的使用权.线程调度有两种调度模式：</p>
+<ul>
+<li><p>分时调度模型，分时调度模型是指让所有的线程轮流获得 CPU 的使用权，并且平均分配每个线程占用的 CPU 的时间片。</p>
+</li>
+<li><p>抢占式调度模型，指优先让可运行池中优先级高的线程占用 CPU，如果可运行池中的线程优先级相同，那么就随机选择一个线程，使其占用 CPU。处于运行状态的线程会一直运行，直至它不得不放弃 CPU</p>
+</li>
+</ul>
+<h3 id="时间片轮转算法"><a href="#时间片轮转算法" class="headerlink" title="时间片轮转算法"></a>时间片轮转算法</h3><p>现代操作系统再管理普通线程时，通常采用时间片轮转算法，每个线程会被分配一段时间片，通常在 10-100 毫秒左右，当线程使用完自己的时间片之后j就被会操作系统挂起，放入等待队列中，等待下一次被分配时间片。</p>
+<h3 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h3><p>狭义上的原子操作表示一条不可打断的操作，也就是说线程在执行操作过程中，不会被操作系统挂起，而是一定会执行完。在单处理器环境下，一条汇编指令显然是原子操作，因为中断也要通过指令来实现。</p>
+<p>然而在多处理器的情况下，能够被多个处理器同时执行的操作仍然算不上原子操作。因此，真正的原子操作必须由硬件提供支持，比如 x86 平台上如果在指令前面加上 “LOCK” 前缀，对应的机器码在执行时会把总线锁住，使得其他 CPU不能再执行相同操作，从而从硬件层面确保了操作的原子性。</p>
+<h3 id="自旋锁（spin-lock）"><a href="#自旋锁（spin-lock）" class="headerlink" title="自旋锁（spin lock）"></a>自旋锁（spin lock）</h3><p>自旋锁与互斥锁有点类似，只是自旋锁不会引起调用者睡眠，如果自旋锁已经被别的执行单元保持，调用者就一直循环在那里看是 否该自旋锁的保持者已经释放了锁，”自旋”一词就是因此而得名。其作用是为了解决某项资源的互斥使用。因为自旋锁不会引起调用者睡眠，所以自旋锁的效率远 高于互斥锁。虽然它的效率比互斥锁高，但是它也有些不足之处:</p>
+<ul>
+<li><p>自旋锁一直占用CPU，他在未获得锁的情况下，一直运行－－自旋，所以占用着CPU，如果不能在很短的时 间内获得锁，这无疑会使CPU效率降低。</p>
+</li>
+<li><p>在用自旋锁时有可能造成死锁，当递归调用时有可能造成死锁，调用有些其他函数也可能造成死锁，如 copy_to_user()、copy_from_user()、kmalloc()等</p>
+</li>
+</ul>
+<p>自旋锁只有在内核可抢占式或SMP的情况下才真正需要，在单CPU且不可抢占式的内核下，自旋锁的操作为空操作。自旋锁适用于锁使用者保持锁时间比较短的情况下</p>
+<h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><p>互斥锁属于sleep-waiting类型的锁。例如在一个双核的机器上有两个线程(线程A和线程B)，它们分别运行在Core0和 Core1上。假设线程A想要通过pthread_mutex_lock操作去得到一个临界区的锁，而此时这个锁正被线程B所持有，那么线程A就会被阻塞 (blocking)，Core0 会在此时进行上下文切换(Context Switch)将线程A置于等待队列中，此时Core0就可以运行其他的任务(例如另一个线程C)而不必进行忙等待。而自旋锁则不然，它属于busy-waiting类型的锁，如果线程A是使用pthread_spin_lock操作去请求锁，那么线程A就会一直在 Core0上进行忙等待并不停的进行锁请求，直到得到这个锁为止。</p>
+<h2 id="各种锁"><a href="#各种锁" class="headerlink" title="各种锁"></a>各种锁</h2><p>在 ibireme 的 <a href="https://blog.ibireme.com/2016/01/16/spinlock_is_unsafe_in_ios/" target="_blank" rel="external">不再安全的 OSSpinLock</a> 一文中，有一张图片简单的比较了各种锁的加解锁性能:</p>
+<p><img src="https://blog.ibireme.com/wp-content/uploads/2016/01/lock_benchmark.png" alt=""></p>
+<p>需要说明的是，加解锁速度不表示锁的效率，只表示加解锁操作在执行时的复杂程度</p>
+<h3 id="OSSpinLock"><a href="#OSSpinLock" class="headerlink" title="OSSpinLock"></a>OSSpinLock</h3><p>YY 大神在之前的文章中已经提到了 OSSpinLock 已经不再安全。主要原因发生在低优先级线程拿到锁时，高优先级线程进入忙等(busy-wait)状态，消耗大量 CPU 时间，从而导致低优先级线程拿不到 CPU 时间，也就无法完成任务并释放锁。这种问题被称为优先级反转。</p>
+<p>自旋锁的目的是为了确保临界区只有一个线程可以访问，它的使用可以用下面这段伪代码来描述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">do &#123;  </span><br><span class="line">    Acquire Lock</span><br><span class="line">        Critical section  // 临界区</span><br><span class="line">    Release Lock</span><br><span class="line">        Reminder section // 不需要锁保护的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Acquire Lock 这一步，我们申请加锁，目的是为了保护临界区(Critical Section) 中的代码不会被多个线程执行。</p>
+<p>自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  </span><br><span class="line">do &#123;  </span><br><span class="line">    while(lock); // 如果 lock 为 true 就一直死循环，相当于申请锁</span><br><span class="line">    lock = true; // 挂上锁，这样别的线程就无法获得锁</span><br><span class="line">        Critical section  // 临界区</span><br><span class="line">    lock = false; // 相当于释放锁，这样别的线程可以进入临界区</span><br><span class="line">        Reminder section // 不需要锁保护的代码        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这样存在一个问题，如果一开始就有多个线程同时执行 while 循环，这样就不会保证锁的可靠性了，依然能同时访问临界区内容。所以还需要再做一步操作，保证申请锁的操作是原子操作。</p>
+<p>上述申请锁的过程，可以用一个原子性操作 test_and_set 来完成，它用伪代码可以这样表示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bool test_and_set (bool *target) &#123;  </span><br><span class="line">    bool rv = *target; </span><br><span class="line">    *target = TRUE; </span><br><span class="line">    return rv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的作用是把 target 的值设置为 1，并返回原来的值。当然，在具体实现时，它通过一个原子性的指令来完成。</p>
+<h3 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h3><p>信号量 dispatch_semaphore_t 最终会调用到 sem_wait 方法，这个方法在 glibc 中被实现如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_wait</span> <span class="params">(sem_t *sem)</span> </span>&#123;  </span><br><span class="line">  <span class="keyword">int</span> *futex = (<span class="keyword">int</span> *) sem;</span><br><span class="line">  <span class="keyword">if</span> (atomic_decrement_if_positive (futex) &gt; <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> err = lll_futex_wait (futex, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>首先会把信号量的值减一，并判断是否大于零。如果大于零，说明不用等待，所以立刻返回。具体的等待操作在 lll_futex_wait 函数中实现，lll 是 low level lock 的简称。这个函数通过汇编代码实现，调用到 SYS_futex 这个系统调用，使线程进入睡眠状态，主动让出时间片，这个函数在互斥锁的实现中，也有可能被用到。</p>
+<h3 id="pthread-mutex"><a href="#pthread-mutex" class="headerlink" title="pthread_mutex"></a>pthread_mutex</h3><p>pthread 表示 POSIX thread，定义了一组跨平台的线程相关的 API，pthread_mutex 表示互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上下文切换。</p>
+<p>常见用法如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pthread_mutexattr_t</span> attr;  </span><br><span class="line">pthread_mutexattr_init(&amp;attr);  </span><br><span class="line">pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_NORMAL);  <span class="comment">// 定义锁的属性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">pthread_mutex_t</span> mutex;  </span><br><span class="line">pthread_mutex_init(&amp;mutex, &amp;attr) <span class="comment">// 创建锁</span></span><br><span class="line"></span><br><span class="line">pthread_mutex_lock(&amp;mutex); <span class="comment">// 申请锁  </span></span><br><span class="line">    <span class="comment">// 临界区</span></span><br><span class="line">pthread_mutex_unlock(&amp;mutex); <span class="comment">// 释放锁</span></span><br></pre></td></tr></table></figure>
+<p>一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</p>
+<p>然而这种情况经常会发生，比如某个函数申请了锁，在临界区内又递归调用了自己。辛运的是 pthread_mutex 支持递归锁，也就是允许一个线程递归的申请锁，只要把 attr 的类型改成 PTHREAD_MUTEX_RECURSIVE 即可。</p>
+<p>YTKNetworking 中就有使用这种锁方式：</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#define Lock() pthread_mutex_lock(&amp;_lock)</span></span><br><span class="line"><span class="meta">#define Unlock() pthread_mutex_unlock(&amp;_lock)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加 request 到字典</span></span><br><span class="line">- (<span class="keyword">void</span>)addRequestToRecord:(YTKBaseRequest *)request &#123;</span><br><span class="line">    Lock();</span><br><span class="line">    _requestsRecord[@(request.requestTask.taskIdentifier)] = request;</span><br><span class="line">    Unlock();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从字典中移除指定的 request</span></span><br><span class="line">- (<span class="keyword">void</span>)removeRequestFromRecord:(YTKBaseRequest *)request &#123;</span><br><span class="line">    Lock();</span><br><span class="line">    [_requestsRecord removeObjectForKey:@(request.requestTask.taskIdentifier)];</span><br><span class="line">    YTKLog(<span class="string">@"Request queue size = %zd"</span>, [_requestsRecord count]);</span><br><span class="line">    Unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h3><p>NSLock 是 Objective-C 以对象的形式暴露给开发者的一种锁，它的实现非常简单，通过宏，定义了 lock 方法:</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#define    MLOCK \</span></span><br><span class="line">- (<span class="keyword">void</span>) lock\</span><br><span class="line">&#123;\</span><br><span class="line">  <span class="keyword">int</span> err = pthread_mutex_lock(&amp;_mutex);\</span><br><span class="line">  <span class="comment">// 错误处理 ……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>NSLock 只是在内部封装了一个 pthread_mutex，属性为 PTHREAD_MUTEX_ERRORCHECK，它会损失一定性能换来错误提示。</p>
+<p>这里使用宏定义的原因是，OC 内部还有其他几种锁，他们的 lock 方法都是一模一样，仅仅是内部 pthread_mutex 互斥锁的类型不同。通过宏定义，可以简化方法的定义。</p>
+<p>AFNetworking 中就是用的这种方式:</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">readwrite</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSLock</span> *lock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.lock = [[<span class="built_in">NSLock</span> alloc] init];</span><br><span class="line"><span class="keyword">self</span>.lock.name = AFURLSessionManagerLockName;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)removeDelegateForTask:(<span class="built_in">NSURLSessionTask</span> *)task &#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(task);</span><br><span class="line"></span><br><span class="line">    AFURLSessionManagerTaskDelegate *delegate = [<span class="keyword">self</span> delegateForTask:task];</span><br><span class="line">    [<span class="keyword">self</span>.lock lock];</span><br><span class="line">    [delegate cleanUpProgressForTask:task];</span><br><span class="line">    [<span class="keyword">self</span> removeNotificationObserverForTask:task];</span><br><span class="line">    [<span class="keyword">self</span>.mutableTaskDelegatesKeyedByTaskIdentifier removeObjectForKey:@(task.taskIdentifier)];</span><br><span class="line">    [<span class="keyword">self</span>.lock unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NSCondition"><a href="#NSCondition" class="headerlink" title="NSCondition"></a>NSCondition</h3><p>NSCondition 的底层是通过条件变量(condition variable) pthread_cond_t 来实现的。条件变量有点像信号量，提供了线程阻塞与信号机制，因此可以用来阻塞某个线程，并等待某个数据就绪，随后唤醒线程，比如常见的生产者-消费者模式。</p>
+<h3 id="NSRecursiveLock"><a href="#NSRecursiveLock" class="headerlink" title="NSRecursiveLock"></a>NSRecursiveLock</h3><p>递归锁也是通过 pthread_mutex_lock 函数来实现，在函数内部会判断锁的类型，如果显示是递归锁，就允许递归调用，仅仅将一个计数器加一，锁的释放过程也是同理。</p>
+<p>NSRecursiveLock 与 NSLock 的区别在于内部封装的 pthread_mutex_t 对象的类型不同，前者的类型为 PTHREAD_MUTEX_RECURSIVE。</p>
+<h3 id="NSConditionLock"><a href="#NSConditionLock" class="headerlink" title="NSConditionLock"></a>NSConditionLock</h3><p>NSConditionLock 借助 NSCondition 来实现，它的本质就是一个生产者-消费者模型。“条件被满足”可以理解为生产者提供了新的内容。NSConditionLock 的内部持有一个 NSCondition 对象，以及 _condition_value 属性，在初始化时就会对这个属性进行赋值</p>
+<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a>@synchronized</h3><p>这其实是一个 OC 层面的锁， 主要是通过牺牲性能换来语法上的简洁与可读。</p>
+<p>我们知道 @synchronized 后面需要紧跟一个 OC 对象，它实际上是把这个对象当做锁来使用。这是通过一个哈希表来实现的，OC 在底层使用了一个互斥锁的数组(你可以理解为锁池)，通过对对象去哈希值来得到对应的互斥锁。</p>
+<p>在 SDWebImage 中用的就是这种方式：</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)cancel &#123;</span><br><span class="line">    <span class="keyword">@synchronized</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> cancelInternal];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>其实这篇文章内容基本都是从别的文章中拔过来的，因为在看源码的过程中，发现不同的库在面对多线程编程的时候，为了线程安全选择了不同方式的锁，所以才会想着来查一下一共有多少种锁的实现方式，这个过程中又遇到了很多不懂的问题，目前只是简单的了解了一下，目前还不具备深究下去的能力，所以这篇基本就算是个笔记摘抄吧。后续的话到时候再对这篇文章加上自己的理解补充。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="external">深入理解 iOS 开发中的锁</a></p>
+<p><a href="http://blog.csdn.net/susidian/article/details/51068858" target="_blank" rel="external">互斥锁和自旋锁的区别</a></p>
+<p><a href="http://www.jianshu.com/p/6773757a6cd5" target="_blank" rel="external">探讨 iOS 开发中的各种锁</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/11/01/iOS中的各种锁/" data-title="iOS 中的几种常用锁 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/10/30/Reactive-Native-入门与介绍/"  title="Reactive Native 入门与介绍">
+ <strong>下一篇：</strong><br/> 
+ <span>Reactive Native 入门与介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#预备知识"><span class="toc-number">1.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程调度"><span class="toc-number">1.1.</span> <span class="toc-text">线程调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间片轮转算法"><span class="toc-number">1.2.</span> <span class="toc-text">时间片轮转算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原子操作"><span class="toc-number">1.3.</span> <span class="toc-text">原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自旋锁（spin-lock）"><span class="toc-number">1.4.</span> <span class="toc-text">自旋锁（spin lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#互斥锁"><span class="toc-number">1.5.</span> <span class="toc-text">互斥锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#各种锁"><span class="toc-number">2.</span> <span class="toc-text">各种锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSSpinLock"><span class="toc-number">2.1.</span> <span class="toc-text">OSSpinLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch-semaphore-t"><span class="toc-number">2.2.</span> <span class="toc-text">dispatch_semaphore_t</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pthread-mutex"><span class="toc-number">2.3.</span> <span class="toc-text">pthread_mutex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSLock"><span class="toc-number">2.4.</span> <span class="toc-text">NSLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSCondition"><span class="toc-number">2.5.</span> <span class="toc-text">NSCondition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSRecursiveLock"><span class="toc-number">2.6.</span> <span class="toc-text">NSRecursiveLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSConditionLock"><span class="toc-number">2.7.</span> <span class="toc-text">NSConditionLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized"><span class="toc-number">2.8.</span> <span class="toc-text">@synchronized</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
