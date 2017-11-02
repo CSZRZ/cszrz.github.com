@@ -1,0 +1,514 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Autorelease 探究 | DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="前言由于笔者在接触 iOS 开发的时候就已经是 ARC 的时代了，不得不说，相比 MRC 时代需要自己去手动释放真的是爽的很多啊。（偷笑），没有经历过 MRC 时代，也不需要 [obj autorelease] ，更是没有用过 AutoreleasePool，欠下的技术债，现在慢慢补~~~
+Autorelease 释放时机在没有手加Autorelease Pool的情况下，Autorelease">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autorelease 探究">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/Autorelease-小结/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="前言由于笔者在接触 iOS 开发的时候就已经是 ARC 的时代了，不得不说，相比 MRC 时代需要自己去手动释放真的是爽的很多啊。（偷笑），没有经历过 MRC 时代，也不需要 [obj autorelease] ，更是没有用过 AutoreleasePool，欠下的技术债，现在慢慢补~~~
+Autorelease 释放时机在没有手加Autorelease Pool的情况下，Autorelease">
+<meta property="og:image" content="http://blog.leichunfeng.com/images/AutoreleasePoolPage.png">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj5gvphtqj20dy0cx756.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/51530583gw1elj5z7hawej20ji0dewff.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/51530583gw1elj6u2i3fyj20dz0bqdgi.jpg">
+<meta property="og:updated_time" content="2017-11-02T14:51:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Autorelease 探究">
+<meta name="twitter:description" content="前言由于笔者在接触 iOS 开发的时候就已经是 ARC 的时代了，不得不说，相比 MRC 时代需要自己去手动释放真的是爽的很多啊。（偷笑），没有经历过 MRC 时代，也不需要 [obj autorelease] ，更是没有用过 AutoreleasePool，欠下的技术债，现在慢慢补~~~
+Autorelease 释放时机在没有手加Autorelease Pool的情况下，Autorelease">
+<meta name="twitter:image" content="http://blog.leichunfeng.com/images/AutoreleasePoolPage.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/11/02/Autorelease-小结/" title="Autorelease 探究" itemprop="url">Autorelease 探究</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-02T02:25:47.000Z" itemprop="datePublished"> 发表于 2017-11-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Autorelease-释放时机"><span class="toc-number">2.</span> <span class="toc-text">Autorelease 释放时机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Autorelease-原理"><span class="toc-number">3.</span> <span class="toc-text">Autorelease 原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AutoreleasePoolPage"><span class="toc-number">3.1.</span> <span class="toc-text">AutoreleasePoolPage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#释放时机"><span class="toc-number">3.2.</span> <span class="toc-text">释放时机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么时候用-autoreleasepool"><span class="toc-number">4.</span> <span class="toc-text">什么时候用@autoreleasepool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSThread、NSRunLoop-和-NSAutoreleasePool"><span class="toc-number">5.</span> <span class="toc-text">NSThread、NSRunLoop 和 NSAutoreleasePool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于笔者在接触 iOS 开发的时候就已经是 ARC 的时代了，不得不说，相比 MRC 时代需要自己去手动释放真的是爽的很多啊。（偷笑），没有经历过 MRC 时代，也不需要 <code>[obj autorelease]</code> ，更是没有用过 AutoreleasePool，欠下的技术债，现在慢慢补~~~</p>
+<h2 id="Autorelease-释放时机"><a href="#Autorelease-释放时机" class="headerlink" title="Autorelease 释放时机"></a>Autorelease 释放时机</h2><p>在没有手加Autorelease Pool的情况下，Autorelease对象是在当前的runloop迭代结束时释放的，而它能够释放的原因是系统在每个runloop迭代中都加入了自动释放池Push和Pop。</p>
+<h2 id="Autorelease-原理"><a href="#Autorelease-原理" class="headerlink" title="Autorelease 原理"></a>Autorelease 原理</h2><h3 id="AutoreleasePoolPage"><a href="#AutoreleasePoolPage" class="headerlink" title="AutoreleasePoolPage"></a>AutoreleasePoolPage</h3><p>ARC 下我们不能调用 <code>[obj autorelease]</code>，但是我们可以直接调用 <code>@autoreleasepool{}</code> 来使用一个 AutoreleasePool， 之后编译器会把其改写成下面这样（简化后的代码）：</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> *context = objc_autoreleasePoolPush();</span><br><span class="line"><span class="comment">// &#123;&#125;中的代码</span></span><br><span class="line">objc_autoreleasePoolPop(context);</span><br></pre></td></tr></table></figure>
+<p>主要就上面两个，一个 Push 一个 Pop ，而这两个函数是对 <code>AutoreleasePoolPage</code> 的简单封装，自动释放的核心就在这个类中。这是一个 C++ 实现的类。</p>
+<p><img src="http://blog.leichunfeng.com/images/AutoreleasePoolPage.png" alt=""></p>
+<ul>
+<li><p>AutoreleasePool并没有单独的结构，而是由若干个AutoreleasePoolPage以双向链表的形式组合而成（分别对应结构中的parent指针和child指针）parent 指向父结点，第一个结点的 parent 值为 nil，child 指向子结点，最后一个结点的 child 值为 nil。</p>
+</li>
+<li><p>AutoreleasePool是按线程一一对应的（结构中的thread指针指向当前线程）</p>
+</li>
+<li><p>AutoreleasePoolPage每个对象会开辟4096字节内存（也就是虚拟内存一页的大小），除了上面的实例变量所占空间，剩下的空间全部用来储存autorelease对象的地址</p>
+</li>
+<li><p>上面的id *next指针作为游标指向栈顶最新add进来的autorelease对象的下一个位置,初始化时指向 begin() </p>
+</li>
+<li><p>一个AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，连接链表，后来的autorelease对象在新的page加入，当 next == begin() 时，表示 AutoreleasePoolPage 为空；当 next == end() 时，表示 AutoreleasePoolPage 已满。</p>
+</li>
+</ul>
+<p>如果当前线程中只有一个AutoreleasePoolPage对象，并记录了很多autorelease对象地址时内存如下图：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/51530583gw1elj5gvphtqj20dy0cx756.jpg" alt=""></p>
+<p>这一页再加入一个autorelease对象就要满了（也就是next指针马上指向栈顶），这时就要执行上面说的操作，建立下一页page对象，与这一页链表连接完成后，新page的next指针被初始化在栈底（begin的位置），然后继续向栈顶添加新对象。所以，向一个对象发送 <code>- autorelease</code> 消息，就是将这个对象加入到当前AutoreleasePoolPage的栈顶next指针指向的位置</p>
+<h3 id="释放时机"><a href="#释放时机" class="headerlink" title="释放时机"></a>释放时机</h3><p>上面说了，<code>@autoreleasepool{}</code> 其实就是 push 和 pop 的过程。</p>
+<ol>
+<li>Push</li>
+</ol>
+<p>一个 push 操作其实就是创建一个新的 autoreleasepool ，对应 AutoreleasePoolPage 的具体实现就是往 AutoreleasePoolPage 中的 next 位置插入一个 POOL_SENTINEL（哨兵对象,，值为0，也就是一个 nil） ，并且返回插入的 POOL_SENTINEL 的内存地址。这个地址在执行 pop 操作的时候作为函数的入参。这时候一个 page 就变成下面这样：</p>
+<p><img src="http://ww2.sinaimg.cn/large/51530583gw1elj5z7hawej20ji0dewff.jpg" alt=""></p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> *push()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">id</span> *dest = autoreleaseFast(POOL_SENTINEL);</span><br><span class="line">    assert(*dest == POOL_SENTINEL);</span><br><span class="line">    <span class="keyword">return</span> dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>push 函数通过调用 autoreleaseFast 函数来执行具体的插入操作:</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">id</span> *autoreleaseFast(<span class="keyword">id</span> obj)</span><br><span class="line">&#123;</span><br><span class="line">    AutoreleasePoolPage *page = hotPage();</span><br><span class="line">    <span class="keyword">if</span> (page &amp;&amp; !page-&gt;full()) &#123;</span><br><span class="line">        <span class="keyword">return</span> page-&gt;add(obj);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (page) &#123;</span><br><span class="line">        <span class="keyword">return</span> autoreleaseFullPage(obj, page);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> autoreleaseNoPage(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>autoreleaseFast 在执行具体的操作时候，主要处理了 3 种情况：</p>
+<ul>
+<li><p>当前 page 存在且没有满时，直接将对象添加到当前 page 中，即 next 指向的位置；</p>
+</li>
+<li><p>当前 page 存在且已满时，创建一个新的 page ，并将对象添加到新创建的 page 中；</p>
+</li>
+<li><p>当前 page 不存在时，即还没有 page 时，创建第一个 page ，并将对象添加到新创建的 page 中。</p>
+</li>
+</ul>
+<p>每调用一次 push 操作就会创建一个新的 autoreleasepool ，即往 AutoreleasePoolPage 中插入一个 POOL_SENTINEL ，并且返回插入的 POOL_SENTINEL 的内存地址。</p>
+<ol>
+<li>Pop</li>
+</ol>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span></span><br><span class="line">objc_autoreleasePoolPop(<span class="keyword">void</span> *ctxt)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (UseGC) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fixme rdar://9167170</span></span><br><span class="line">    <span class="keyword">if</span> (!ctxt) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    AutoreleasePoolPage::pop(ctxt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>pop 函数的入参就是 push 函数的返回值。然后进行如下操作：</p>
+<ul>
+<li><p>根据传入的哨兵对象地址找到哨兵对象所处的page</p>
+</li>
+<li><p>在当前page中，将晚于哨兵对象插入的所有autorelease对象都发送一次- release消息，并向回移动next指针到正确位置（从最新加入的对象一直向前清理，可以向前跨越若干个page，直到哨兵所在的page）</p>
+</li>
+</ul>
+<p>然后 page 就变成了如下样子：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/51530583gw1elj6u2i3fyj20dz0bqdgi.jpg" alt=""></p>
+<h2 id="什么时候用-autoreleasepool"><a href="#什么时候用-autoreleasepool" class="headerlink" title="什么时候用@autoreleasepool"></a>什么时候用@autoreleasepool</h2><p>根据 <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html" target="_blank" rel="external">Apple的文档</a>，使用场景如下：</p>
+<ul>
+<li><p>写基于命令行的的程序时，就是没有UI框架，如AppKit等Cocoa框架时。</p>
+</li>
+<li><p>写循环，循环里面包含了大量临时创建的对象。</p>
+</li>
+</ul>
+<p>比如<br><figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="built_in">NSURL</span> *url <span class="keyword">in</span> urls) &#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="built_in">NSError</span> *error;</span><br><span class="line">        <span class="built_in">NSString</span> *fileContents = [<span class="built_in">NSString</span> stringWithContentsOfURL:url</span><br><span class="line">                                         encoding:<span class="built_in">NSUTF8StringEncoding</span> error:&amp;error];</span><br><span class="line">        <span class="comment">/* Process the string, creating and autoreleasing more objects. */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>创建了新的线程。（非Cocoa程序创建线程时才需要）</p>
+</li>
+<li><p>长时间在后台运行的任务。</p>
+</li>
+</ul>
+<h2 id="NSThread、NSRunLoop-和-NSAutoreleasePool"><a href="#NSThread、NSRunLoop-和-NSAutoreleasePool" class="headerlink" title="NSThread、NSRunLoop 和 NSAutoreleasePool"></a>NSThread、NSRunLoop 和 NSAutoreleasePool</h2><p>根据苹果官方文档中对 <a href="https://developer.apple.com/documentation/foundation/nsrunloop#//apple_ref/doc/constant_group/Run_Loop_Modes" target="_blank" rel="external">NSRunLoop</a> 的描述，我们可以知道每一个线程，包括主线程，都会拥有一个专属的 NSRunLoop 对象，并且会在有需要的时候自动创建。</p>
+<blockquote>
+<p>Each NSThread object, including the application’s main thread, has an NSRunLoop object automatically created for it as needed.</p>
+</blockquote>
+<p>文档中还提到：</p>
+<blockquote>
+<p>The Application Kit creates an autorelease pool on the main thread at the beginning of every cycle of the event loop, and drains it at the end, thereby releasing any autoreleased objects generated while processing an event</p>
+</blockquote>
+<p>即：在主线程的 NSRunLoop 对象（在系统级别的其他线程中应该也是如此，比如通过 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0) 获取到的线程）的每个 event loop 开始前，系统会自动创建一个 autoreleasepool ，并在 event loop 结束时 drain 。</p>
+<p>另外，NSAutoreleasePool 中还提到，每一个线程都会维护自己的 autoreleasepool 堆栈。换句话说 autoreleasepool 是与线程紧密相关的，每一个 autoreleasepool 只对应一个线程。</p>
+<blockquote>
+<p>Each thread (including the main thread) maintains its own stack of NSAutoreleasePool objects.</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="external">黑幕背后的Autorelease</a></p>
+<p><a href="http://blog.leichunfeng.com/blog/2015/05/31/objective-c-autorelease-pool-implementation-principle/" target="_blank" rel="external">Objective-C Autorelease Pool 的实现原理</a></p>
+<p><a href="http://www.jianshu.com/p/5559bc15490d" target="_blank" rel="external">iOS中autorelease的那些事儿</a></p>
+<p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html" target="_blank" rel="external">Using Autorelease Pool Blocks</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/11/02/Autorelease-小结/" data-title="Autorelease 探究 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/11/01/iOS中的各种锁/"  title="iOS 中的几种常用锁">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS 中的几种常用锁
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Autorelease-释放时机"><span class="toc-number">2.</span> <span class="toc-text">Autorelease 释放时机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Autorelease-原理"><span class="toc-number">3.</span> <span class="toc-text">Autorelease 原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AutoreleasePoolPage"><span class="toc-number">3.1.</span> <span class="toc-text">AutoreleasePoolPage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#释放时机"><span class="toc-number">3.2.</span> <span class="toc-text">释放时机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么时候用-autoreleasepool"><span class="toc-number">4.</span> <span class="toc-text">什么时候用@autoreleasepool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSThread、NSRunLoop-和-NSAutoreleasePool"><span class="toc-number">5.</span> <span class="toc-text">NSThread、NSRunLoop 和 NSAutoreleasePool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
