@@ -1,0 +1,537 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JavaScript 基础学习笔记 | DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="JavaScript 最早是由网景公司开发的一款脚本语言，原来叫 LiveScript ,然后为了蹭 Java 的热度改名叫做 JavaScript。所以对于刚接触编程的人来说，听到这 2 个的名字总让人困惑以为两者之前有什么关系，其实上就是一个“碰瓷”的…后来微软发布了它们的 JScript 脚本语言，再之后，网景公司就把 JavaScript 提交到 Ecma International—">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 基础学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/11/27/JavaScript-基础学习笔记/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="JavaScript 最早是由网景公司开发的一款脚本语言，原来叫 LiveScript ,然后为了蹭 Java 的热度改名叫做 JavaScript。所以对于刚接触编程的人来说，听到这 2 个的名字总让人困惑以为两者之前有什么关系，其实上就是一个“碰瓷”的…后来微软发布了它们的 JScript 脚本语言，再之后，网景公司就把 JavaScript 提交到 Ecma International—">
+<meta property="og:updated_time" content="2017-11-28T16:00:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 基础学习笔记">
+<meta name="twitter:description" content="JavaScript 最早是由网景公司开发的一款脚本语言，原来叫 LiveScript ,然后为了蹭 Java 的热度改名叫做 JavaScript。所以对于刚接触编程的人来说，听到这 2 个的名字总让人困惑以为两者之前有什么关系，其实上就是一个“碰瓷”的…后来微软发布了它们的 JScript 脚本语言，再之后，网景公司就把 JavaScript 提交到 Ecma International—">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/11/27/JavaScript-基础学习笔记/" title="JavaScript 基础学习笔记" itemprop="url">JavaScript 基础学习笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-27T03:22:34.000Z" itemprop="datePublished"> 发表于 2017-11-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Numbers"><span class="toc-number">2.</span> <span class="toc-text">Numbers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Strings"><span class="toc-number">3.</span> <span class="toc-text">Strings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Other-types"><span class="toc-number">4.</span> <span class="toc-text">Other types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variables"><span class="toc-number">5.</span> <span class="toc-text">Variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Operators"><span class="toc-number">6.</span> <span class="toc-text">Operators</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Control-structures"><span class="toc-number">7.</span> <span class="toc-text">Control structures</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objects"><span class="toc-number">8.</span> <span class="toc-text">Objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arrays"><span class="toc-number">9.</span> <span class="toc-text">Arrays</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Functions"><span class="toc-number">10.</span> <span class="toc-text">Functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Custom-objects"><span class="toc-number">11.</span> <span class="toc-text">Custom objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">12.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">13.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>JavaScript 最早是由网景公司开发的一款脚本语言，原来叫 LiveScript ,然后为了蹭 Java 的热度改名叫做 JavaScript。所以对于刚接触编程的人来说，听到这 2 个的名字总让人困惑以为两者之前有什么关系，其实上就是一个“碰瓷”的…后来微软发布了它们的 JScript 脚本语言，再之后，网景公司就把 JavaScript 提交到 Ecma International——一个欧洲标准组织（计算机发展的过程中，涉及到很多标准化的制定，没有标准的世界是无序的，添加了很多额外的成本，比如 RFC，UTF-8）。在 1999 制定了 ECMAScript 3 标准，。这版标准直到现在都是十分牢固的。第 4 版的制定废弃了，由于对于语言复杂程度的不同阵营的分歧，2009 年发布了 ECMAScript 5，这版很多基础的形成来源于废弃的第 4 版。然后在 2015 年发布了 ESMAScript 6. JS 不像其他编程语言有输入输出的概念，它设计的初衷就是跑在一个宿主环境的脚本语言，依靠宿主提供的机制和外部沟通。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>JS 是一门动态语言，语法受到 Java 和 C 影响, JS 支持面向对象编程，通过对象原型来替代 classes，JS 同样也支持函数编程，函数也是对象 ，函数可以执行代码，也能在对象之间传递。下面就从 JS 中的类型来开始介绍：</p>
+<ul>
+<li>Number</li>
+<li>String</li>
+<li>Boolean</li>
+<li>Symbol(new in ES2015)</li>
+<li>Object<ul>
+<li>Function</li>
+<li>Array</li>
+<li>Date</li>
+<li>RegExp</li>
+</ul>
+</li>
+<li>null</li>
+<li>undefined</li>
+</ul>
+<h2 id="Numbers"><a href="#Numbers" class="headerlink" title="Numbers"></a>Numbers</h2><p>我们可以通过内置的 <code>parseInt()</code> 函数来将字符串转换为整型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//10进制</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'123'</span>, <span class="number">10</span>); <span class="comment">// 123</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'010'</span>, <span class="number">10</span>); <span class="comment">// 10</span></span><br><span class="line"><span class="comment">//16进制</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'0x10'</span>); <span class="comment">// 16</span></span><br><span class="line"><span class="comment">//在老式的浏览器中 0开头的会被按照 8进制进行转换，后来被移除</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'010'</span>);  <span class="comment">//  8</span></span><br><span class="line"><span class="comment">//二进制</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'11'</span>, <span class="number">2</span>); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>类似的还有 <code>parseFloat()</code> 不过他总是按照十进制来转换(可以直接通过 “+” 来转换)：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="string">'42'</span>;   <span class="comment">// 42</span></span><br><span class="line">+ <span class="string">'010'</span>;  <span class="comment">// 10</span></span><br><span class="line">+ <span class="string">'0x10'</span>; <span class="comment">// 16</span></span><br></pre></td></tr></table></figure>
+<p>如果字符串不是数字的话，会返回一个特殊的值 <code>NaN</code>(“Not a Number”):</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="string">'hello'</span>, <span class="number">10</span>); <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+<p><code>NaN</code> 进行任何算数运算，最中结果还是 <code>NaN</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> + <span class="number">5</span>; <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isNaN</span>(<span class="literal">NaN</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>JS 还提供正无穷大 <code>Infinity</code> 和负无穷大 <code>-Infinity</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> / <span class="number">0</span>; <span class="comment">//  Infinity</span></span><br><span class="line"><span class="number">-1</span> / <span class="number">0</span>; <span class="comment">// -Infinity</span></span><br></pre></td></tr></table></figure>
+<p><code>isFinite()</code> 是否有限：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isFinite</span>(<span class="number">1</span> / <span class="number">0</span>); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">isFinite</span>(-<span class="literal">Infinity</span>); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">isFinite</span>(<span class="literal">NaN</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>parseInt()</code> 和 <code>parseFloat()</code>  函数从语法上分析一个字符串，直到遇到不是数字的，并且返回。 但是 “+” 运算是如果遇到无效字符（不是数字的）就直接返回 <code>NaN</code></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; + <span class="string">'10a'</span></span><br><span class="line"><span class="literal">NaN</span></span><br><span class="line">&gt; <span class="built_in">parseInt</span>(<span class="string">'10a'</span>)</span><br><span class="line"><span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h2 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h2><p>JS 中的字符串是一串 Unicode 字符序列，准备的说，是一串 UTF-16 编码单元的序列，每一个编码单元由一个 16 位二进制数表示，每一个 Unicode 字符由一个或两个编码单元来表示.</p>
+<p>获取字符串长度：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'hello'</span>.length; <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+<p>字符串也可以像对象那样使用，提供有方法去操作：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'hello'</span>.charAt(<span class="number">0</span>); <span class="comment">// "h"</span></span><br><span class="line"><span class="string">'hello, world'</span>.replace(<span class="string">'hello'</span>, <span class="string">'goodbye'</span>); <span class="comment">// "goodbye, world"</span></span><br><span class="line"><span class="string">'hello'</span>.toUpperCase(); <span class="comment">// "HELLO"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Other-types"><a href="#Other-types" class="headerlink" title="Other types"></a>Other types</h2><p>JavaScript 中 <code>null</code> 和 <code>undefined</code> 是不同的，前者表示一个空值（non-value），必须使用 <code>null</code> 关键字才能访问，后者是“undefined（未定义）”类型的对象，表示一个未初始化的值，也就是还没有被分配的值.undefined 实际上是一个不允许修改的常量</p>
+<p>JS 有一个布尔值类型，（true/false）,任何值都可以按照下面规则转换成一个布尔值:</p>
+<ul>
+<li><code>false</code>、<code>0</code>、空字符串(<code>&quot;&quot;</code>)、<code>NaN</code>、<code>null</code> 和 <code>undefined</code> 被转换为 <code>false</code></li>
+<li>所有其他值被转换为 <code>true</code> </li>
+</ul>
+<p>可以使用 <code>Boolean()</code> 来进行显示转换：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(<span class="string">""</span>); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="number">234</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>但是一般没必要这么做，在需要一个布尔值时，JS 会隐式地完成这个操作，比如 <code>if</code> 判断中。</p>
+<h2 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h2><p>JS 中通过 3 个关键词来申明变量 <code>let</code>, <code>const</code> 和 <code>var</code>.</p>
+<p><code>let</code> 声明一个块级变量，这个变量在它的块级作用域中可以获得：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a;</span><br><span class="line"><span class="keyword">let</span> name = <span class="string">'Simon'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// myLetVariable is *not* visible out here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> myLetVariable = <span class="number">0</span>; myLetVariable &lt; <span class="number">5</span>; myLetVariable++) &#123;</span><br><span class="line">  <span class="comment">// myLetVariable is only visible in here</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// myLetVariable is *not* visible out here</span></span><br></pre></td></tr></table></figure>
+<p><code>const</code> 声明一个常量，不能修改:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Pi = <span class="number">3.14</span>; <span class="comment">// variable Pi is set </span></span><br><span class="line">Pi = <span class="number">1</span>; <span class="comment">// will throw an error because you cannot change a constant variable.</span></span><br></pre></td></tr></table></figure>
+<p><code>var</code> 是最常用的声明变量的关键词，没有上面的限制：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a; </span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'Simon'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// myVarVariable *is* visible out here </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> myVarVariable = <span class="number">0</span>; myVarVariable &lt; <span class="number">5</span>; myVarVariable++) &#123; </span><br><span class="line">  <span class="comment">// myVarVariable is visible to the whole function </span></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// myVarVariable *is* visible out here</span></span><br></pre></td></tr></table></figure>
+<p>如果声明了一个变量却没有对其赋值，那么这个变量的类型就是 <code>undefined</code>。</p>
+<p>JavaScript 与其他语言的（如 Java）的重要区别是在 JavaScript 中语句块（blocks）是没有作用域的，只有函数有作用域。因此如果在一个复合语句中（如 if 控制结构中）使用 var 声明一个变量，那么它的作用域是整个函数（复合语句在函数中）。 但是从 ECMAScript Edition 6 开始将有所不同的， let 和 const 关键字允许你创建块作用域的变量。</p>
+<h2 id="Operators"><a href="#Operators" class="headerlink" title="Operators"></a>Operators</h2><ul>
+<li><ul>
+<li><ul>
+<li>/ % += -= ++ –</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>当字符串和其他的值相加的话，会首先将所有值转换为字符串：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'3'</span> + <span class="number">4</span> + <span class="number">5</span>;  <span class="comment">// "345"</span></span><br><span class="line"> <span class="number">3</span> + <span class="number">4</span> + <span class="string">'5'</span>; <span class="comment">// "75"</span></span><br></pre></td></tr></table></figure>
+<p>由此有一个小技巧，通过空字符串与一个值相加，可以将任意值快速转换为字符串</p>
+<p>比较操作有 &lt; &gt; &lt;= &gt;=, == 稍微复杂一些，== 有类型自适应的功能：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">123</span> == <span class="string">"123"</span> <span class="comment">// true</span></span><br><span class="line"><span class="number">1</span> == <span class="literal">true</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>如果不需要z自动类型转换就是用 ===</p>
+<h2 id="Control-structures"><a href="#Control-structures" class="headerlink" title="Control structures"></a>Control structures</h2><p>常见的 <code>if</code> <code>else</code>  <code>while</code> <code>do while</code> <code>for</code> <code>for of</code> <code>for in</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> array) &#123;</span><br><span class="line">  <span class="comment">// do something with value</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> property <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="comment">// do something with object property</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>&amp;&amp;</code> 和 <code>||</code> 运算符使用短路逻辑, 其中 <code>||</code> 还可以用来设置默认值:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = otherName || <span class="string">"default"</span>;</span><br></pre></td></tr></table></figure>
+<p><code>switch</code> 语句 可以是数字或者字符串：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (action) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'draw'</span>:</span><br><span class="line">    drawIt();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'eat'</span>:</span><br><span class="line">    eatIt();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    doNothing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>default</code> 语句是可选的。<code>switch</code> 和 <code>case</code> 都可以使用需要运算才能得到结果的表达式；在 <code>switch</code> 的表达式和 <code>case</code> 的表达式是使用 <code>===</code> 严格相等运算符进行比较的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(<span class="number">1</span> + <span class="number">3</span>)&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span> + <span class="number">2</span>:</span><br><span class="line">        yay();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        neverhappens();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Objects"><a href="#Objects" class="headerlink" title="Objects"></a>Objects</h2><p>JavaScript 中的对象可以简单理解成“名称-值”对</p>
+<p>有两种简单方法可以创建一个空对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">//对象字面量</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>对象字面量也可以用来在一个对象实例中定义一个对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'Carrot'</span>,</span><br><span class="line">  <span class="keyword">for</span>: <span class="string">'Max'</span>, <span class="comment">// 'for' is a reserved word, use '_for' instead.</span></span><br><span class="line">  details: &#123;</span><br><span class="line">    color: <span class="string">'orange'</span>,</span><br><span class="line">    size: <span class="number">12</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>对象属性可以通过链式访问：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">obj.details.color; <span class="comment">// orange</span></span><br><span class="line">obj[<span class="string">"details"</span>][<span class="string">"size"</span>]; <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Define an object</span></span><br><span class="line"><span class="keyword">var</span> you = <span class="keyword">new</span> Person(<span class="string">'You'</span>, <span class="number">24</span>); </span><br><span class="line"><span class="comment">// We are creating a new person named "You" aged 24.</span></span><br></pre></td></tr></table></figure>
+<h2 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h2><p>数组是特殊的对象，它的工作原理与普通对象类似（以数字为属性名，但只能通过[] 来访问），但数组还有一个特殊的属性——length（长度）属性。这个属性的值通常比数组最大索引大 1。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">a[<span class="number">0</span>] = <span class="string">'dog'</span>;</span><br><span class="line">a[<span class="number">1</span>] = <span class="string">'cat'</span>;</span><br><span class="line">a[<span class="number">2</span>] = <span class="string">'hen'</span>;</span><br><span class="line">a.length; <span class="comment">//</span></span><br></pre></td></tr></table></figure>
+<p>数组字面量：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'dog'</span>, <span class="string">'cat'</span>, <span class="string">'hen'</span>];</span><br><span class="line">a.length; <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>Array.length 并不总是等于数组中元素的个数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">"dog"</span>, <span class="string">"cat"</span>, <span class="string">"hen"</span>];</span><br><span class="line">a[<span class="number">100</span>] = <span class="string">"fox"</span>;</span><br><span class="line">a.length; <span class="comment">// 101</span></span><br></pre></td></tr></table></figure>
+<p>如果访问一个不存在的数组索引，则返回 <code>undefined</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> a[<span class="number">90</span>]; <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>遍历数组的另一种方法是使用 <code>for...in</code> 循环。注意，如果有人向 Array.prototype 添加了新的属性，使用这样的循环这些属性也同样会被遍历,所以不合适循环数组，还有一种是 ECMAScript 5 增加的 <code>forEach()</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'dog'</span>, <span class="string">'cat'</span>, <span class="string">'hen'</span>].forEach(<span class="function"><span class="keyword">function</span>(<span class="params">currentValue, index, array</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Do something with currentValue or array[index]</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><p>函数和对象一样是 JS 中最重要的部分，一个最简单的函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> total = x + y;</span><br><span class="line">  <span class="keyword">return</span> total;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果调用函数时没有提供足够的参数，缺少的参数会被 undefined 替代：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add(); <span class="comment">// NaN </span></span><br><span class="line"><span class="comment">// 不能在 undefined 对象上进行加法操作</span></span><br></pre></td></tr></table></figure>
+<p>你还可以传入多于函数本身需要参数个数的参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>); <span class="comment">// 5</span></span><br><span class="line"> <span class="comment">// 将前两个值相加，4被忽略了</span></span><br></pre></td></tr></table></figure>
+<p>函数实际上是访问了函数体中一个名为 <code>arguments</code> 的内部对象，这个对象就如同一个类似于数组的对象一样，包括了所有被传入的参数:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="built_in">arguments</span>.length; i &lt; j; i++) &#123;</span><br><span class="line">        sum += <span class="built_in">arguments</span>[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>); <span class="comment">// 14</span></span><br></pre></td></tr></table></figure>
+<p>创建一个匿名函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> avg = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="built_in">arguments</span>.length; i &lt; j; i++) &#123;</span><br><span class="line">        sum += <span class="built_in">arguments</span>[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum / <span class="built_in">arguments</span>.length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>基于这个特性，有人发明出一些有趣的技巧。与 C 中的块级作用域类似：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">3</span>;</span><br><span class="line">    a += b;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">a; <span class="comment">// 4</span></span><br><span class="line">b; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>JavaScript 允许以递归方式调用函数。递归在处理树形结构（比如浏览器 DOM）时非常有用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">countChars</span>(<span class="params">elm</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (elm.nodeType == <span class="number">3</span>) &#123; <span class="comment">// 文本节点</span></span><br><span class="line">        <span class="keyword">return</span> elm.nodeValue.length;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, child; child = elm.childNodes[i]; i++) &#123;</span><br><span class="line">        count += countChars(child);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Custom-objects"><a href="#Custom-objects" class="headerlink" title="Custom objects"></a>Custom objects</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makePerson</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    first: first,</span><br><span class="line">    last: last,</span><br><span class="line">    fullName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.first + <span class="string">' '</span> + <span class="keyword">this</span>.last;</span><br><span class="line">    &#125;,</span><br><span class="line">    fullNameReversed: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.last + <span class="string">', '</span> + <span class="keyword">this</span>.first;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">s = makePerson(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">s.fullName(); <span class="comment">// "Simon Willison"</span></span><br><span class="line">s.fullNameReversed(); <span class="comment">// "Willison, Simon"</span></span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一些入门的基础知识，主要翻译 MDN 上的教程，虽然也要对应的中文文档，然后有部分也是直接摘录，还是有必要锻炼自己看英文文档的能力的。。。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript" target="_blank" rel="external">A re-introduction to JavaScript (JS tutorial)</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/11/27/JavaScript-基础学习笔记/" data-title="JavaScript 基础学习笔记 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/11/23/现代前端中的一些概念和框架库的整理/"  title="现代前端中的一些概念和框架库的整理">
+ <strong>下一篇：</strong><br/> 
+ <span>现代前端中的一些概念和框架库的整理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Numbers"><span class="toc-number">2.</span> <span class="toc-text">Numbers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Strings"><span class="toc-number">3.</span> <span class="toc-text">Strings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Other-types"><span class="toc-number">4.</span> <span class="toc-text">Other types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variables"><span class="toc-number">5.</span> <span class="toc-text">Variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Operators"><span class="toc-number">6.</span> <span class="toc-text">Operators</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Control-structures"><span class="toc-number">7.</span> <span class="toc-text">Control structures</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objects"><span class="toc-number">8.</span> <span class="toc-text">Objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arrays"><span class="toc-number">9.</span> <span class="toc-text">Arrays</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Functions"><span class="toc-number">10.</span> <span class="toc-text">Functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Custom-objects"><span class="toc-number">11.</span> <span class="toc-text">Custom objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">12.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">13.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

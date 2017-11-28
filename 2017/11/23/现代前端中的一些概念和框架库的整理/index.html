@@ -1,0 +1,494 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>现代前端中的一些概念和框架库的整理 | DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="工具类npmnpm 是前端广泛使用的包管理工具，通过 npm 可以让我们方便的发布和使用别人封装的库，其实就类似 CocoaPods。CocoaPods 通过生成一个 Podfile 文件来配置我们使用的第 3 库信息，npm 则是通过一个 package.json 文件来配置我们的引用信息.
+创建 package.json一般在项目根目录下执行 npm init 或者通过 npm i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="现代前端中的一些概念和框架库的整理">
+<meta property="og:url" content="http://yoursite.com/2017/11/23/现代前端中的一些概念和框架库的整理/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="工具类npmnpm 是前端广泛使用的包管理工具，通过 npm 可以让我们方便的发布和使用别人封装的库，其实就类似 CocoaPods。CocoaPods 通过生成一个 Podfile 文件来配置我们使用的第 3 库信息，npm 则是通过一个 package.json 文件来配置我们的引用信息.
+创建 package.json一般在项目根目录下执行 npm init 或者通过 npm i">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000007045085">
+<meta property="og:updated_time" content="2017-11-26T11:47:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="现代前端中的一些概念和框架库的整理">
+<meta name="twitter:description" content="工具类npmnpm 是前端广泛使用的包管理工具，通过 npm 可以让我们方便的发布和使用别人封装的库，其实就类似 CocoaPods。CocoaPods 通过生成一个 Podfile 文件来配置我们使用的第 3 库信息，npm 则是通过一个 package.json 文件来配置我们的引用信息.
+创建 package.json一般在项目根目录下执行 npm init 或者通过 npm i">
+<meta name="twitter:image" content="https://segmentfault.com/img/remote/1460000007045085">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/11/23/现代前端中的一些概念和框架库的整理/" title="现代前端中的一些概念和框架库的整理" itemprop="url">现代前端中的一些概念和框架库的整理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-23T05:40:18.000Z" itemprop="datePublished"> 发表于 2017-11-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#工具类"><span class="toc-number">1.</span> <span class="toc-text">工具类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#npm"><span class="toc-number">1.1.</span> <span class="toc-text">npm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-package-json"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建 package.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#package-json-的内容"><span class="toc-number">1.1.2.</span> <span class="toc-text">package.json 的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-package"><span class="toc-number">1.1.3.</span> <span class="toc-text">安装 package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新本地-package"><span class="toc-number">1.1.4.</span> <span class="toc-text">更新本地 package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载本地-package"><span class="toc-number">1.1.5.</span> <span class="toc-text">卸载本地 package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-run"><span class="toc-number">1.1.6.</span> <span class="toc-text">npm run</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack"><span class="toc-number">1.2.</span> <span class="toc-text">webpack</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预处理"><span class="toc-number">2.</span> <span class="toc-text">预处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#less"><span class="toc-number">2.1.</span> <span class="toc-text">less</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量"><span class="toc-number">2.1.1.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#混合"><span class="toc-number">2.1.2.</span> <span class="toc-text">混合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套"><span class="toc-number">2.1.3.</span> <span class="toc-text">嵌套</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数与操作符"><span class="toc-number">2.1.4.</span> <span class="toc-text">函数与操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">2.1.5.</span> <span class="toc-text">小结</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h1><h2 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h2><p>npm 是前端广泛使用的包管理工具，通过 npm 可以让我们方便的发布和使用别人封装的库，其实就类似 CocoaPods。CocoaPods 通过生成一个 Podfile 文件来配置我们使用的第 3 库信息，npm 则是通过一个 package.json 文件来配置我们的引用信息.</p>
+<h3 id="创建-package-json"><a href="#创建-package-json" class="headerlink" title="创建 package.json"></a>创建 package.json</h3><p>一般在项目根目录下执行 npm init 或者通过 npm init –yes 直接生产一个默认值的 package.json </p>
+<h3 id="package-json-的内容"><a href="#package-json-的内容" class="headerlink" title="package.json 的内容"></a>package.json 的内容</h3><p>这里用了网上一个项目的示例:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"my-weex-demo"</span>,</span><br><span class="line">    <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">    <span class="string">"description"</span>: <span class="string">"a weex project"</span>,</span><br><span class="line">    <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">    <span class="string">"scripts"</span>: &#123;</span><br><span class="line">        <span class="string">"build"</span>: <span class="string">"weex-builder src dist"</span>,</span><br><span class="line">        <span class="string">"build_plugin"</span>: <span class="string">"webpack --config ./tools/webpack.config.plugin.js --color"</span>,</span><br><span class="line">        <span class="string">"dev"</span>: <span class="string">"weex-builder src dist -w"</span>,</span><br><span class="line">        <span class="string">"serve"</span>: <span class="string">"serve -p 8080"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"keywords"</span>: [</span><br><span class="line">        <span class="string">"weex"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"author"</span>: <span class="string">"fkysly@gmail.com"</span>,</span><br><span class="line">    <span class="string">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">    <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">        <span class="string">"babel-core"</span>: <span class="string">"^6.14.0"</span>,</span><br><span class="line">        <span class="string">"babel-loader"</span>: <span class="string">"^6.2.5"</span>,</span><br><span class="line">        <span class="string">"babel-preset-es2015"</span>: <span class="string">"^6.18.0"</span>,</span><br><span class="line">        <span class="string">"vue-loader"</span>: <span class="string">"^10.0.2"</span>,</span><br><span class="line">        <span class="string">"eslint"</span>: <span class="string">"^3.5.0"</span>,</span><br><span class="line">        <span class="string">"serve"</span>: <span class="string">"^1.4.0"</span>,</span><br><span class="line">        <span class="string">"webpack"</span>: <span class="string">"^1.13.2"</span>,</span><br><span class="line">        <span class="string">"weex-loader"</span>: <span class="string">"^0.3.3"</span>,</span><br><span class="line">        <span class="string">"weex-builder"</span>: <span class="string">"^0.2.6"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">        <span class="string">"weex-html5"</span>: <span class="string">"^0.3.2"</span>,</span><br><span class="line">        <span class="string">"weex-components"</span>: <span class="string">"*"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本上看到就能明白什么意思了，name 和 version 是必须要有的 2 部分，下面就是项目的描述，作者，支持的脚本，之类的，还有 main 表示入口文件，一把都是 index.js，下面说一下项目的依赖，就像 pod install 一样，执行 npm install 根据配置的依赖去下载相关的库、包有 2 种依赖方式，在生产环境中使用的 <code>dependencies</code> 和 在开发测试环境中使用的 <code>devDependencies</code> </p>
+<p>语义化版本规则：</p>
+<p>正常我们做项目涉及到版本的升级迭代，一般都是 3 位数，从 1.0.0 版本开始，第 1 位表示大版本更新，第 2 位表示小版本迭代，最后一位一般都是修复 bug。npm 这里发布版本的时候，第 2 位版本发布的时候表示不会影响之前的版本，大版本可能无法兼容之前的，所以我们一般都会指定第 2 种形式，允许更新小版本.</p>
+<p>作为使用者，我们可以在 package.json 文件中写明我们可以接受这个包的更新程度（假设当前依赖的是 1.0.4 版本）：</p>
+<ul>
+<li><p>如果只打算接受补丁版本的更新（也就是最后一位的改变），就可以这么写：<br>1.0<br>1.0.x<br>~1.0.4</p>
+</li>
+<li><p>如果接受小版本的更新（第二位的改变），就可以这么写：<br>1<br>1.x<br>^1.0.4</p>
+</li>
+<li><p>如果可以接受大版本的更新（自然接受小版本和补丁版本的改变），就可以这么写：<br>*<br>x</p>
+</li>
+</ul>
+<h3 id="安装-package"><a href="#安装-package" class="headerlink" title="安装 package"></a>安装 package</h3><p>安装 package 有 2 种方式，一种本地（当前项目路径）安装，另一种是全局安装，npm install 默认是安装本地的，在当前项目通过 require（）加载使用。npm install 默认会安装 所有依赖，包括正式的和开发环境中的，如果只想安装正式的，需要执行 <code>npm install --production</code> </p>
+<ul>
+<li>安装某一个 package</li>
+</ul>
+<p><code>npm install &lt;package_name&gt;</code> 这个命令会在当前目录下创建一个 <code>node_modules</code> 目录，然后将包下载到这个目录中。</p>
+<ul>
+<li>安装指定版本</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm install sax@latest</span><br><span class="line">$ npm install sax@<span class="number">0.1</span><span class="number">.1</span></span><br><span class="line">$ npm install sax@<span class="string">"&gt;=0.1.0 &lt;0.2.0"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装参数 –save 和 –save-dev</li>
+</ul>
+<p><code>npm install &lt;package_name&gt; --save</code> 表示将这个包名及对应的版本添加到 package.json的 dependencies</p>
+<p><code>npm install &lt;package_name&gt; --save-dev</code> 表示将这个包名及对应的版本添加到 package.json的 devDependencies</p>
+<h3 id="更新本地-package"><a href="#更新本地-package" class="headerlink" title="更新本地 package"></a>更新本地 package</h3><p>使用 <code>npm outdated</code> 查看 package 是否更新，使用 <code>npm update &lt;package-name&gt;</code> 更新单个，使用 <code>npm update</code> 更新所有</p>
+<h3 id="卸载本地-package"><a href="#卸载本地-package" class="headerlink" title="卸载本地 package"></a>卸载本地 package</h3><p><code>npm uninstall &lt;package-name&gt;</code></p>
+<h3 id="npm-run"><a href="#npm-run" class="headerlink" title="npm run"></a>npm run</h3><p>npm 还可以直接运行 package.json 中 scripts 指定的脚本:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"demo"</span>,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"lint"</span>: <span class="string">"jshint **.js"</span>,</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"mocha test/"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>npm run 是 npm run-script 的缩写。命令行输入 <code>npm run lint</code> 或者 <code>npm run-script lint</code> 就会执行 jshint **.js </p>
+<blockquote>
+<p>npm run 会创建一个Shell，执行指定的命令，并临时将node_modules/.bin加入PATH 变量，这意味着本地模块可以直接运行。</p>
+</blockquote>
+<p>package.json 中的 scripts 执行的脚本是本地项目内 node_modules -&gt; .bin 内的脚本</p>
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><p><a href="https://doc.webpack-china.org/concepts/" target="_blank" rel="external">webpack</a> 是一个现代 JavaScript 应用程序的模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000007045085" alt=""></p>
+<h1 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h1><h2 id="less"><a href="#less" class="headerlink" title="less"></a>less</h2><p>Less（或写作LESS）是一种由Alexis Sellier设计的动态层叠样式表语言，受Sass所影响，同时也影响了Sass的新语法：SCSS。[1]<br>LESS是开源的，其第一个版本由Ruby写成，但在后续的版本当中，Ruby逐渐被替换为JavaScript。受益于JavaScript，LESS可以在客户端上运行（IE6+、Webkit、Firefox），也可以在服务端运行（Node.js、Rhino）。[2]<br>在语法方面，LESS与CSS较为接近，一个合法的CSS代码段本身也是一段合法的LESS代码段。LESS提供变量、嵌套、混合、操作符、函数等一般编程所需的抽象机制.</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>在LESS中，变量以“@”开头，赋值时以“:”进行赋值。经过LESS的翻译，这些变量最终会转换为符合CSS标准的值</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">color:</span> #<span class="number">4</span>D926F;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#header</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: @color;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h2</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: @color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码最终转换为:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#4D926F</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h2</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#4D926F</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h3><p>混合允许开发者仅仅通过包含类名将一个类当中的所有属性全部应用于另一个类，同时也可以像函数一样提供参数使用。<br>CSS3并不支持混合，任何重复的代码必须在每个使用的地方重复编写，而通过LESS，你可以将代码进行复用</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.rounded-corners (@radius: 5px) &#123;</span><br><span class="line">  border-radius: @radius;</span><br><span class="line">  -webkit-border-radius: @radius;</span><br><span class="line">  -moz-border-radius: @radius;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#header &#123;</span><br><span class="line">  .rounded-corners;</span><br><span class="line">&#125;</span><br><span class="line">#footer &#123;</span><br><span class="line">  .rounded-corners(10px);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转换为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> &#123;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">-webkit-border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">-moz-border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#footer</span> &#123;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">-moz-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><p>CSS支持逻辑上的嵌套，但在代码本身并不是嵌套的。LESS提供了代码的嵌套</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#header &#123;</span><br><span class="line">  h1 &#123;</span><br><span class="line">    font-size: 26px;</span><br><span class="line">    font-weight: bold;</span><br><span class="line">  &#125;</span><br><span class="line">  p &#123; font-size: 12px;</span><br><span class="line">    a &#123; text-decoration: none;</span><br><span class="line">      &amp;:hover &#123; border-width: 1px &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转换为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> <span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">26px</span>;</span><br><span class="line">  <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#header</span> <span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#header</span> <span class="selector-tag">p</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">text-decoration</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#header</span> <span class="selector-tag">p</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">border-width</span>: <span class="number">1px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数与操作符"><a href="#函数与操作符" class="headerlink" title="函数与操作符"></a>函数与操作符</h3><p>LESS提供了函数用以支持复杂的属性间关系，其函数与JavaScript代码中的函数一一对应，允许JavaScript代码直接操纵传达过去的值。同时，LESS内置了基本的操作符，涵盖了基本加、减、乘、除，能够对属性值或颜色进行计算。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">the-border:</span> <span class="number">1px</span>;</span><br><span class="line">@<span class="keyword">base-color:</span> #<span class="number">111</span>;</span><br><span class="line">@<span class="keyword">red:</span>        #<span class="number">842210</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#header</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: @base-color * <span class="number">3</span>;</span><br><span class="line">  <span class="attribute">border-left</span>: @the-border;</span><br><span class="line">  <span class="attribute">border-right</span>: @the-border * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#footer</span> &#123; </span><br><span class="line">  <span class="attribute">color</span>: @base-color + <span class="number">#003300</span>;</span><br><span class="line">  <span class="attribute">border-color</span>: <span class="built_in">desaturate</span>(@red, 10%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转换为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">  <span class="attribute">border-left</span>: <span class="number">1px</span>;</span><br><span class="line">  <span class="attribute">border-right</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#footer</span> &#123; </span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#114411</span>;</span><br><span class="line">  <span class="attribute">border-color</span>: <span class="number">#7d2717</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>less 其实通过一系列的抽象，来方便 css 的管理复用等等，提高了编写维护 css 的效率。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/11/23/现代前端中的一些概念和框架库的整理/" data-title="现代前端中的一些概念和框架库的整理 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/11/27/JavaScript-基础学习笔记/" title="JavaScript 基础学习笔记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JavaScript 基础学习笔记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/11/13/GPUImage-简介与入门/"  title="GPUImage 简介与入门">
+ <strong>下一篇：</strong><br/> 
+ <span>GPUImage 简介与入门
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#工具类"><span class="toc-number">1.</span> <span class="toc-text">工具类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#npm"><span class="toc-number">1.1.</span> <span class="toc-text">npm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-package-json"><span class="toc-number">1.1.1.</span> <span class="toc-text">创建 package.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#package-json-的内容"><span class="toc-number">1.1.2.</span> <span class="toc-text">package.json 的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-package"><span class="toc-number">1.1.3.</span> <span class="toc-text">安装 package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新本地-package"><span class="toc-number">1.1.4.</span> <span class="toc-text">更新本地 package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载本地-package"><span class="toc-number">1.1.5.</span> <span class="toc-text">卸载本地 package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-run"><span class="toc-number">1.1.6.</span> <span class="toc-text">npm run</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack"><span class="toc-number">1.2.</span> <span class="toc-text">webpack</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预处理"><span class="toc-number">2.</span> <span class="toc-text">预处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#less"><span class="toc-number">2.1.</span> <span class="toc-text">less</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量"><span class="toc-number">2.1.1.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#混合"><span class="toc-number">2.1.2.</span> <span class="toc-text">混合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套"><span class="toc-number">2.1.3.</span> <span class="toc-text">嵌套</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数与操作符"><span class="toc-number">2.1.4.</span> <span class="toc-text">函数与操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">2.1.5.</span> <span class="toc-text">小结</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
