@@ -1,0 +1,464 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>记一次失败的尝试 | DevZhang的博客小屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="CSAMEN">
+    
+
+    
+    <meta name="description" content="这周领导安排了一个研究任务，本来的要求是希望通过我们的 App 唤起微信然后打开指定的 url，但是这个显然是不可能的，我们知道 iOS 中 App 都是处于沙箱环境，App 之间无法随意访问之间的数据，所以 Apple 提供了 URL Scheme 的方式来提供一些能力，然后通过 openURL 的方法来调用，比如微信定义的是 weixin, 我们通过传入 weixin:// 就可以唤">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次失败的尝试">
+<meta property="og:url" content="http://yoursite.com/2017/12/02/记一次失败的尝试/index.html">
+<meta property="og:site_name" content="DevZhang的博客小屋">
+<meta property="og:description" content="这周领导安排了一个研究任务，本来的要求是希望通过我们的 App 唤起微信然后打开指定的 url，但是这个显然是不可能的，我们知道 iOS 中 App 都是处于沙箱环境，App 之间无法随意访问之间的数据，所以 Apple 提供了 URL Scheme 的方式来提供一些能力，然后通过 openURL 的方法来调用，比如微信定义的是 weixin, 我们通过传入 weixin:// 就可以唤">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/%E5%BE%AE%E4%BF%A1App%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0App%E6%94%AF%E4%BB%98%E8%B0%83%E8%B5%B7%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0.png">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0.png">
+<meta property="og:updated_time" content="2017-12-02T09:30:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次失败的尝试">
+<meta name="twitter:description" content="这周领导安排了一个研究任务，本来的要求是希望通过我们的 App 唤起微信然后打开指定的 url，但是这个显然是不可能的，我们知道 iOS 中 App 都是处于沙箱环境，App 之间无法随意访问之间的数据，所以 Apple 提供了 URL Scheme 的方式来提供一些能力，然后通过 openURL 的方法来调用，比如微信定义的是 weixin, 我们通过传入 weixin:// 就可以唤">
+<meta name="twitter:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/%E5%BE%AE%E4%BF%A1App%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0App%E6%94%AF%E4%BB%98%E8%B0%83%E8%B5%B7%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DevZhang的博客小屋">DevZhang的博客小屋</a></h1>
+				<h2 class="blog-motto">有生之莲</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/12/02/记一次失败的尝试/" title="记一次失败的尝试" itemprop="url">记一次失败的尝试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
+		
+  <p class="article-time">
+    <time datetime="2017-12-02T07:53:18.000Z" itemprop="datePublished"> 发表于 2017-12-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#换种思路"><span class="toc-number">1.</span> <span class="toc-text">换种思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说干就干"><span class="toc-number">2.</span> <span class="toc-text">说干就干</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#微信支付的种类"><span class="toc-number">3.</span> <span class="toc-text">微信支付的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#等等，真的没法干预了嘛？"><span class="toc-number">4.</span> <span class="toc-text">等等，真的没法干预了嘛？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后一搏"><span class="toc-number">5.</span> <span class="toc-text">最后一搏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>这周领导安排了一个研究任务，本来的要求是希望通过我们的 App 唤起微信然后打开指定的 url，但是这个显然是不可能的，我们知道 iOS 中 App 都是处于沙箱环境，App 之间无法随意访问之间的数据，所以 Apple 提供了 URL Scheme 的方式来提供一些能力，然后通过 <code>openURL</code> 的方法来调用，比如微信定义的是 <code>weixin</code>, 我们通过传入 <code>weixin://</code> 就可以唤起微信了，如果我们需要传入数据，就直接在后面携带参数，然后被调起方通过解析这些参数来执行相应的操作。但是我们并不知道微信执行打开 url 的参数拼接规则，所以虽然我们可以唤起微信，但是却不知道该传什么参数给它，所以这条路显然是不通的，Android 那边也一样，Android 打开一个 App 到指定页面，需要传入包名，类名，参数这些，这些都是不知道的，所以此路不通，那就转换方式！</p>
+<h2 id="换种思路"><a href="#换种思路" class="headerlink" title="换种思路"></a>换种思路</h2><p>由于目的是完成微信支付，本来的操作是关注微信公众号，然后发出消息，返回一个网页，然后在里面完成支付操作，所以此时我想到的是这个网页我们是可以拿到的，可以放在我们自己的 App 里面加载这个网页完成支付操作（由于此时我并不了解微信支付，以为是和支付宝类似，可以网页转 Native 支付，实际是不一样的，后面才发现。。。）。</p>
+<h2 id="说干就干"><a href="#说干就干" class="headerlink" title="说干就干"></a>说干就干</h2><p>思路有了，那就干起来，直接在一个 <code>UIWebView</code> 中加载我们的目标地址，点到付款那一步没有反应。嗯。。。理想的情况当然是点付款按钮然后唤起微信完成支付啦，不过目前的情况也是在意料之中的，所以我们就需要打开微信支付文档，看看有没有什么网页转 Native 的方式了。</p>
+<h2 id="微信支付的种类"><a href="#微信支付的种类" class="headerlink" title="微信支付的种类"></a>微信支付的种类</h2><p>打开文档之后，真的是一脸懵逼了，和我想的完全不一样，并没有支付宝支付那样提供网页转 Native 的 SDK提供。。。这时候就需要去好好查看文档，这里就简单说普通商户接入的支付方式种类：</p>
+<ul>
+<li><p>刷卡支付（用户打开微信钱包的刷卡的界面，商户扫码后完成支付）</p>
+</li>
+<li><p>公众号支付（用户在微信内进入商家的 H5 页面，页面内调用 JSSDK 完成支付）</p>
+</li>
+<li><p>扫码支付（用户打开扫一扫，扫描商户的二维码支付）</p>
+</li>
+<li><p>App 支付（商户 App 集成微信 SDK，用户点击跳转后转到微信内完成支付 ）</p>
+</li>
+<li><p>H5 支付（用户在微信以外的s手机浏览器请求微信支付的场景唤起微信支付）</p>
+</li>
+<li><p>小程序支付（用户在微信小程序中使用微信支付的场景）</p>
+</li>
+</ul>
+<p>这个时候其实已经猜到了，我们用的页面的支付应该是属于公众号支付的。</p>
+<p>在 Chrome 中打开开发者工具，找到支付按钮处的代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&lt;!--按钮开始--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn_wrap"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>  <span class="attr">class</span>=<span class="string">" button button-blue"</span> <span class="attr">onclick</span>=<span class="string">"javascript:callpay();"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>立即付款<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--按钮结束--&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到点击按钮调用了 <code>callpay()</code> 这个方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callpay</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> payFlag = <span class="string">""</span>;</span><br><span class="line">		<span class="keyword">if</span>(payFlag == <span class="string">"1"</span>)&#123;</span><br><span class="line">			alert(<span class="string">"该公共帐号未开通微信支付！"</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		 WeixinJSBridge.invoke(<span class="string">'getBrandWCPayRequest'</span>,&#123;</span><br><span class="line">	  		 <span class="string">"appId"</span> : <span class="string">"wxc67fc77a0da17e5c"</span>,</span><br><span class="line">	  		 <span class="string">"timeStamp"</span> : <span class="string">"1512141998777"</span>,</span><br><span class="line">	  		 <span class="string">"nonceStr"</span> : <span class="string">"1512141998777"</span>,</span><br><span class="line">	  		 <span class="string">"package"</span> : <span class="string">"prepay_id=wx201712012326384475d12e9f0704529550"</span>,</span><br><span class="line">	  		 <span class="string">"signType"</span> : <span class="string">"MD5"</span>,</span><br><span class="line">	  		 <span class="string">"paySign"</span> : <span class="string">"4F3186A586E74AB96C8077F9ACD415BB"</span></span><br><span class="line">		 	   			</span><br><span class="line">		 &#125;,<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">					WeixinJSBridge.log(res.err_msg);</span><br><span class="line">						<span class="keyword">if</span>(res.err_msg == <span class="string">"get_brand_wcpay_request:ok"</span> ) &#123;</span><br><span class="line">			               			location.href = <span class="string">"http://weixinpay.js96296.com/wchat/weixin.jsp?retCode=1&amp;yytOrderNum=002201712011512139605888&amp;orderId=002201712011512139605888&amp;openId=oTV1Tt14q8jCDi2ldeh1KyJkijqg"</span>;</span><br><span class="line">			           	&#125;</span><br><span class="line">					</span><br><span class="line">					&#125;);</span><br><span class="line">		&#125;	</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>这就是调用的微信的 JSSDK 完成支付了，可以在公众号支付的文档中找到以下示例方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onBridgeReady</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   WeixinJSBridge.invoke(</span><br><span class="line">       <span class="string">'getBrandWCPayRequest'</span>, &#123;</span><br><span class="line">           <span class="string">"appId"</span>:<span class="string">"wx2421b1c4370ec43b"</span>,     <span class="comment">//公众号名称，由商户传入     </span></span><br><span class="line">           <span class="string">"timeStamp"</span>:<span class="string">"1395712654"</span>,         <span class="comment">//时间戳，自1970年以来的秒数     </span></span><br><span class="line">           <span class="string">"nonceStr"</span>:<span class="string">"e61463f8efa94090b1f366cccfbbb444"</span>, <span class="comment">//随机串     </span></span><br><span class="line">           <span class="string">"package"</span>:<span class="string">"prepay_id=u802345jgfjsdfgsdg888"</span>,     </span><br><span class="line">           <span class="string">"signType"</span>:<span class="string">"MD5"</span>,         <span class="comment">//微信签名方式：     </span></span><br><span class="line">           <span class="string">"paySign"</span>:<span class="string">"70EA570631E4BB79628FBCA90534C63FF7FADD89"</span> <span class="comment">//微信签名 </span></span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;     </span><br><span class="line">           <span class="keyword">if</span>(res.err_msg == <span class="string">"get_brand_wcpay_request:ok"</span> ) &#123;&#125;     <span class="comment">// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 </span></span><br><span class="line">       &#125;</span><br><span class="line">   ); </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> WeixinJSBridge == <span class="string">"undefined"</span>)&#123;</span><br><span class="line">   <span class="keyword">if</span>( <span class="built_in">document</span>.addEventListener )&#123;</span><br><span class="line">       <span class="built_in">document</span>.addEventListener(<span class="string">'WeixinJSBridgeReady'</span>, onBridgeReady, <span class="literal">false</span>);</span><br><span class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.attachEvent)&#123;</span><br><span class="line">       <span class="built_in">document</span>.attachEvent(<span class="string">'WeixinJSBridgeReady'</span>, onBridgeReady); </span><br><span class="line">       <span class="built_in">document</span>.attachEvent(<span class="string">'onWeixinJSBridgeReady'</span>, onBridgeReady);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">   onBridgeReady();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候就确定我们的目标页面是调用的 JSSDK 完成支付了，这个时候好像我们就没法干预了吧，似乎可以宣告此路也是不同？</p>
+<h2 id="等等，真的没法干预了嘛？"><a href="#等等，真的没法干预了嘛？" class="headerlink" title="等等，真的没法干预了嘛？"></a>等等，真的没法干预了嘛？</h2><p>仔细看看，微信 JSSDK 是通过在微信内置浏览器里面注入了一个 <code>WeixinJSBridge</code> 对象，然后调用 <code>invoke</code> 方法，来执行操作，<code>invoke</code> 应该是一个总的方法，它的里面有 3 个参数，第一个 <code>getBrandWCPayRequest</code> 这个参数应该代表的具体支付相关方法，而这个代表的是发起支付请求方法，第 2 个参数是 JS 中的一个对象，在我们看来也就是字典，意义是代表第一个方法需要的参数，第 3 个参数是一个回调函数，执行成功或者失败取消相关的参数（这个涉及到一个概念，即 JS 中函数也属于对象，可以当做参数来传递），所以这时候新的想法来了！！只要我们在自己的 App 网页里面注入了一个相同的 <code>WeixinJSBridge</code> 对象，然后申明一个相同的方法，这时候在我们 App 里面的网页点击支付按钮时候，页面会调用 <code>callpay()</code> 方法，实际就是 <code>WeixinJSBridge.invoke()</code> 方法，这时候我们不就可以拿到传递的参数了嘛！！！</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//申明方法</span></span><br><span class="line">JSExportAs(invoke, - (<span class="keyword">void</span>)invoke:(JSValue *)value dictValue:(JSValue *)dictValue);</span><br><span class="line"></span><br><span class="line"><span class="comment">//注入对象</span></span><br><span class="line">- (<span class="keyword">void</span>)webViewDidFinishLoad:(<span class="built_in">UIWebView</span> *)webView &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置javaScriptContext上下文</span></span><br><span class="line">    <span class="keyword">self</span>.jsContext = [webView valueForKeyPath:<span class="string">@"documentView.webView.mainFrame.javaScriptContext"</span>];</span><br><span class="line">    <span class="comment">//将tianbai对象指向自身</span></span><br><span class="line">    <span class="keyword">self</span>.jsContext[<span class="string">@"WeixinJSBridge"</span>] = <span class="keyword">self</span>;</span><br><span class="line">    <span class="keyword">self</span>.jsContext.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue) &#123;</span><br><span class="line">        context.exception = exceptionValue;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"异常信息：%@"</span>, exceptionValue);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用方法</span></span><br><span class="line">- (<span class="keyword">void</span>)invoke:(JSValue *)value dictValue:(JSValue *)dictValue &#123;</span><br><span class="line">    <span class="comment">//截取付款参数</span></span><br><span class="line">    <span class="built_in">NSDictionary</span> *dict = [dictValue toDictionary];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"method ========= %@"</span>, dict);</span><br><span class="line">    <span class="comment">//生成URLscheme</span></span><br><span class="line">    <span class="built_in">NSString</span> *appId = dict[<span class="string">@"appId"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *nonceStr = dict[<span class="string">@"nonceStr"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *package = dict[<span class="string">@"package"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *timeStamp = dict[<span class="string">@"timeStamp"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *paySign = dict[<span class="string">@"paySign"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *signType = dict[<span class="string">@"signType"</span>];</span><br></pre></td></tr></table></figure>
+<p>这时候参数我们已经拿到了，就需要考虑是否这些参数在 App 支付中一样，查看文档：</p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/%E5%BE%AE%E4%BF%A1App%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0App%E6%94%AF%E4%BB%98%E8%B0%83%E8%B5%B7%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0.png" alt="微信 App 支付参数"></p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%94%AF%E4%BB%98%E5%8F%82%E6%95%B0.png" alt="微信公众号支付参数"></p>
+<p>由此看出，虽然大部分参数一致，但是也有明显区别，其中公众号支付相比 App 支付少了 <code>商户号</code> 和 <code>预支付交易会话 ID</code>，另外虽然都是有 <code>appid</code>，但是含义并不一样，一个代表公众号 id，一个代表应用 id。。。至此，能想到的方法基本都走不通。但是还是有点不甘心啊，都走到这一步了，如果公众号支付的参数，在 App 支付中同样有意义的话？</p>
+<h2 id="最后一搏"><a href="#最后一搏" class="headerlink" title="最后一搏"></a>最后一搏</h2><p>虽然不大可能，但是走到这一步了，如果不用尽一切可能，怎么甘心，因为总有那个 <code>万一呢</code>，对吧？</p>
+<p>这里我们拿到公众号支付的参数，然后试一下 App 支付，这里不接入微信 SDK，网上已经有人实验出了微信 App 支付 <code>URL Scheme</code> 参数拼接规则，所以直接拿到用下好了：</p>
+<figure class="highlight mm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)invoke:(JSValue *)value dictValue:(JSValue *)dictValue &#123;</span><br><span class="line">    <span class="comment">//截取付款参数</span></span><br><span class="line">    <span class="built_in">NSDictionary</span> *dict = [dictValue toDictionary];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"method ========= %@"</span>, dict);</span><br><span class="line">    <span class="comment">//生成URLscheme</span></span><br><span class="line">    <span class="built_in">NSString</span> *appId = dict[<span class="string">@"appId"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *nonceStr = dict[<span class="string">@"nonceStr"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *package = dict[<span class="string">@"package"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *timeStamp = dict[<span class="string">@"timeStamp"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *paySign = dict[<span class="string">@"paySign"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *signType = dict[<span class="string">@"signType"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *str = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"weixin://app/%@/pay/?nonceStr=%@&amp;package=@%&amp;timeStamp=%@&amp;paySign=%@&amp;signType=%@"</span>, appId, nonceStr, package, timeStamp, paySign, signType];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过openURL的方法唤起支付界面</span></span><br><span class="line">    [[<span class="built_in">UIApplication</span> sharedApplication] openURL:[<span class="built_in">NSURL</span> URLWithString:str]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最种结果，点击支付，成功唤起微信，但是弹窗显示 <code>商户支付下单ID非法</code>。。至此，这一次尝试宣告破产。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>虽然这一次的尝试最终还是以失败而告终，但是整体思路上我觉得还是走对了，虽然不同方式的支付很大可能是不会相同的，但是谁又知道呢，当我们面对封闭的环境时候，面对的只有文档的时候，做什么样的尝试都不为过，“源码面前了无秘密”<br>，但是我们不知道呀！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://pay.weixin.qq.com/wiki/doc/api/index.html" target="_blank" rel="external">微信支付文档</a></p>
+<p><a href="http://www.jianshu.com/p/8930b4496023" target="_blank" rel="external">iOS不用微信SDK唤起微信支付</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/12/02/记一次失败的尝试/" data-title="记一次失败的尝试 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/11/27/JavaScript-基础学习笔记/"  title="JavaScript 基础学习笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>JavaScript 基础学习笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#换种思路"><span class="toc-number">1.</span> <span class="toc-text">换种思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说干就干"><span class="toc-number">2.</span> <span class="toc-text">说干就干</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#微信支付的种类"><span class="toc-number">3.</span> <span class="toc-text">微信支付的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#等等，真的没法干预了嘛？"><span class="toc-number">4.</span> <span class="toc-text">等等，真的没法干预了嘛？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后一搏"><span class="toc-number">5.</span> <span class="toc-text">最后一搏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> 积跬步以至千里 <br/>
+			凭栏眺望会有时</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="CSAMEN">CSAMEN</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
