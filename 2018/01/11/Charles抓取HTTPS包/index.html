@@ -4,29 +4,54 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>hello world | DevZhang的博客小屋</title>
+    <title>Charles抓取HTTPS包 | DevZhang的博客小屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="CSAMEN">
     
 
     
-    <meta name="description" content="序零零散散花了几个晚上终于把属于自己的博客搭建起来了，真是不容易，网上的资料挺全的，同时也算踩了一些坑。
-希望这个小窝可以记录下自己工作、学习中的点滴，积累属于自己的知识。也许现在只能积累一些简单的东西，但是这个东西贵在坚持吧，第一次做这样的尝试，算是激励自己前进的一种方式吧，毕竟还花了钱买了域名orz。。。
-最后，hello world！">
+    <meta name="description" content="记录一下如何使用 Charles 来抓取 https 包
+Mac 上安装根证书
+Help -&amp;gt; SSL Proxying -&amp;gt; Install Charles Root Certificate
+
+
+钥匙串中找到该证书并且信任
+根据提示在 iPhone 上安装证书
+Help -&amp;gt; SSL Proxying -&amp;gt; Install Charles Root Certificat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hello world">
-<meta property="og:url" content="http://yoursite.com/2016/03/13/hello-world/index.html">
+<meta property="og:title" content="Charles抓取HTTPS包">
+<meta property="og:url" content="http://yoursite.com/2018/01/11/Charles抓取HTTPS包/index.html">
 <meta property="og:site_name" content="DevZhang的博客小屋">
-<meta property="og:description" content="序零零散散花了几个晚上终于把属于自己的博客搭建起来了，真是不容易，网上的资料挺全的，同时也算踩了一些坑。
-希望这个小窝可以记录下自己工作、学习中的点滴，积累属于自己的知识。也许现在只能积累一些简单的东西，但是这个东西贵在坚持吧，第一次做这样的尝试，算是激励自己前进的一种方式吧，毕竟还花了钱买了域名orz。。。
-最后，hello world！">
-<meta property="og:updated_time" content="2016-03-13T13:26:24.000Z">
+<meta property="og:description" content="记录一下如何使用 Charles 来抓取 https 包
+Mac 上安装根证书
+Help -&amp;gt; SSL Proxying -&amp;gt; Install Charles Root Certificate
+
+
+钥匙串中找到该证书并且信任
+根据提示在 iPhone 上安装证书
+Help -&amp;gt; SSL Proxying -&amp;gt; Install Charles Root Certificat">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/1.png">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/2.png">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/3.png">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/4.png">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/7.PNG">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/5.PNG">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/6.PNG">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/8.png">
+<meta property="og:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/9.png">
+<meta property="og:updated_time" content="2018-01-11T12:21:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hello world">
-<meta name="twitter:description" content="序零零散散花了几个晚上终于把属于自己的博客搭建起来了，真是不容易，网上的资料挺全的，同时也算踩了一些坑。
-希望这个小窝可以记录下自己工作、学习中的点滴，积累属于自己的知识。也许现在只能积累一些简单的东西，但是这个东西贵在坚持吧，第一次做这样的尝试，算是激励自己前进的一种方式吧，毕竟还花了钱买了域名orz。。。
-最后，hello world！">
+<meta name="twitter:title" content="Charles抓取HTTPS包">
+<meta name="twitter:description" content="记录一下如何使用 Charles 来抓取 https 包
+Mac 上安装根证书
+Help -&amp;gt; SSL Proxying -&amp;gt; Install Charles Root Certificate
+
+
+钥匙串中找到该证书并且信任
+根据提示在 iPhone 上安装证书
+Help -&amp;gt; SSL Proxying -&amp;gt; Install Charles Root Certificat">
+<meta name="twitter:image" content="http://oyc1w6xgb.bkt.clouddn.com/blog/1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
@@ -82,14 +107,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/13/hello-world/" title="hello world" itemprop="url">hello world</a>
+      <a href="/2018/01/11/Charles抓取HTTPS包/" title="Charles抓取HTTPS包" itemprop="url">Charles抓取HTTPS包</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-13T13:21:38.000Z" itemprop="datePublished"> 发表于 2016-03-13</time>
+    <time datetime="2018-01-11T11:29:47.000Z" itemprop="datePublished"> 发表于 2018-01-11</time>
     
   </p>
 </header>
@@ -98,14 +123,33 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac-上安装根证书"><span class="toc-number">1.</span> <span class="toc-text">Mac 上安装根证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#钥匙串中找到该证书并且信任"><span class="toc-number">2.</span> <span class="toc-text">钥匙串中找到该证书并且信任</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根据提示在-iPhone-上安装证书"><span class="toc-number">3.</span> <span class="toc-text">根据提示在 iPhone 上安装证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles-使用-SSL-代理"><span class="toc-number">4.</span> <span class="toc-text">Charles 使用 SSL 代理</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="序"><a href="#序" class="headerlink" title="序"></a>序</h1><pre><code>零零散散花了几个晚上终于把属于自己的博客搭建起来了，真是不容易，网上的资料挺全的，同时也算踩了一些坑。
-希望这个小窝可以记录下自己工作、学习中的点滴，积累属于自己的知识。也许现在只能积累一些简单的东西，但是这个东西贵在坚持吧，第一次做这样的尝试，算是激励自己前进的一种方式吧，毕竟还花了钱买了域名orz。。。
-最后，hello world！
-</code></pre>  
+		<p>记录一下如何使用 <code>Charles</code> 来抓取 https 包</p>
+<h3 id="Mac-上安装根证书"><a href="#Mac-上安装根证书" class="headerlink" title="Mac 上安装根证书"></a>Mac 上安装根证书</h3><blockquote>
+<p>Help -&gt; SSL Proxying -&gt; Install Charles Root Certificate</p>
+</blockquote>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/1.png" alt=""></p>
+<h3 id="钥匙串中找到该证书并且信任"><a href="#钥匙串中找到该证书并且信任" class="headerlink" title="钥匙串中找到该证书并且信任"></a>钥匙串中找到该证书并且信任</h3><p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/2.png" alt=""></p>
+<h3 id="根据提示在-iPhone-上安装证书"><a href="#根据提示在-iPhone-上安装证书" class="headerlink" title="根据提示在 iPhone 上安装证书"></a>根据提示在 iPhone 上安装证书</h3><blockquote>
+<p>Help -&gt; SSL Proxying -&gt; Install Charles Root Certificate on a Mobile Device or Remote Browser</p>
+</blockquote>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/3.png" alt=""></p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/4.png" alt=""></p>
+<p>iPhone 上设置代理：</p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/7.PNG" alt=""></p>
+<p>iPhone 上打开 Safari 输入地址 <code>chls.pro/ssl</code> 安装描述文件：</p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/5.PNG" alt=""></p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/6.PNG" alt=""></p>
+<h3 id="Charles-使用-SSL-代理"><a href="#Charles-使用-SSL-代理" class="headerlink" title="Charles 使用 SSL 代理"></a>Charles 使用 SSL 代理</h3><blockquote>
+<p>右键所选请求 -&gt; Enable SSL Proxying</p>
+</blockquote>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/8.png" alt=""></p>
+<p>选中之后状态会改变，此时就可以抓取到数据：</p>
+<p><img src="http://oyc1w6xgb.bkt.clouddn.com/blog/9.png" alt=""></p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -117,7 +161,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/03/13/hello-world/" data-title="hello world | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2018/01/11/Charles抓取HTTPS包/" data-title="Charles抓取HTTPS包 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -130,14 +174,14 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/03/14/iOS笔记-一/" title="iOS笔记(一)">
-  <strong>上一篇：</strong><br/>
-  <span>
-  iOS笔记(一)</span>
+
+<div class="next">
+<a href="/2017/12/30/2017年终小结/"  title="2017年终小结">
+ <strong>下一篇：</strong><br/> 
+ <span>2017年终小结
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -149,7 +193,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac-上安装根证书"><span class="toc-number">1.</span> <span class="toc-text">Mac 上安装根证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#钥匙串中找到该证书并且信任"><span class="toc-number">2.</span> <span class="toc-text">钥匙串中找到该证书并且信任</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根据提示在-iPhone-上安装证书"><span class="toc-number">3.</span> <span class="toc-text">根据提示在 iPhone 上安装证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles-使用-SSL-代理"><span class="toc-number">4.</span> <span class="toc-text">Charles 使用 SSL 代理</span></a></li></ol>
  
   </div>
 
