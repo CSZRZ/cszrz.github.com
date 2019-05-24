@@ -11,18 +11,22 @@
     
 
     
-    <meta name="description" content="《YYModel 源码解析（一）之 YYClassInfo》YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。
+    <meta name="description" content="YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。
 
 简介打开源码，只有 5 个文件，可以说是非常轻量了，这样对于我们来查看学习源码是非常方便的。
-YYModel.h 为调入的头文件，具体看 YYClassInfo     和">
+YYModel.h 为调入的头文件，具体看 YYClassInfo     和 NSObject+YYModel 2 个模块即可。
+
+YYC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《YYModel 源码解析（一）之 YYClassInfo》">
 <meta property="og:url" content="http://yoursite.com/2019/05/16/《YYModel 源码解析（一）之 YYClassInfo》/index.html">
 <meta property="og:site_name" content="DevZhang的博客小屋">
-<meta property="og:description" content="《YYModel 源码解析（一）之 YYClassInfo》YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。
+<meta property="og:description" content="YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。
 
 简介打开源码，只有 5 个文件，可以说是非常轻量了，这样对于我们来查看学习源码是非常方便的。
-YYModel.h 为调入的头文件，具体看 YYClassInfo     和">
+YYModel.h 为调入的头文件，具体看 YYClassInfo     和 NSObject+YYModel 2 个模块即可。
+
+YYC">
 <meta property="og:image" content="http://yoursite.com/images/15580026777096.jpg">
 <meta property="og:image" content="http://yoursite.com/images/15580026866143.jpg">
 <meta property="og:image" content="http://yoursite.com/images/15580026965478.jpg">
@@ -30,13 +34,15 @@ YYModel.h 为调入的头文件，具体看 YYClassInfo     和">
 <meta property="og:image" content="http://yoursite.com/images/15580028295773.jpg">
 <meta property="og:image" content="http://yoursite.com/images/15580027983210.jpg">
 <meta property="og:image" content="http://yoursite.com/images/15580027428488.jpg">
-<meta property="og:updated_time" content="2019-05-16T10:34:02.566Z">
+<meta property="og:updated_time" content="2019-05-24T15:51:12.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《YYModel 源码解析（一）之 YYClassInfo》">
-<meta name="twitter:description" content="《YYModel 源码解析（一）之 YYClassInfo》YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。
+<meta name="twitter:description" content="YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。
 
 简介打开源码，只有 5 个文件，可以说是非常轻量了，这样对于我们来查看学习源码是非常方便的。
-YYModel.h 为调入的头文件，具体看 YYClassInfo     和">
+YYModel.h 为调入的头文件，具体看 YYClassInfo     和 NSObject+YYModel 2 个模块即可。
+
+YYC">
 <meta name="twitter:image" content="http://yoursite.com/images/15580026777096.jpg">
 
     
@@ -109,11 +115,11 @@ YYModel.h 为调入的头文件，具体看 YYClassInfo     和">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#《YYModel-源码解析（一）之-YYClassInfo》"><span class="toc-number">1.</span> <span class="toc-text">《YYModel 源码解析（一）之 YYClassInfo》</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YYClassInfo"><span class="toc-number">1.2.</span> <span class="toc-text">YYClassInfo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassIvarInfo-objc-ivar"><span class="toc-number">1.2.1.</span> <span class="toc-text">YYClassIvarInfo (objc_ivar)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#objc-ivar"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">objc_ivar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#YYEncodingType-amp-amp-YYEncodingGetType"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">YYEncodingType && YYEncodingGetType</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassMethodInfo-objc-method"><span class="toc-number">1.2.2.</span> <span class="toc-text">YYClassMethodInfo (objc_method)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassPropertyInfo-objc-property-t"><span class="toc-number">1.2.3.</span> <span class="toc-text">YYClassPropertyInfo (objc_property_t)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassInfo-objc-class"><span class="toc-number">1.2.4.</span> <span class="toc-text">YYClassInfo (objc_class)</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YYClassInfo"><span class="toc-number">2.</span> <span class="toc-text">YYClassInfo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassIvarInfo-objc-ivar"><span class="toc-number">2.1.</span> <span class="toc-text">YYClassIvarInfo (objc_ivar)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#objc-ivar"><span class="toc-number">2.1.1.</span> <span class="toc-text">objc_ivar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#YYEncodingType-amp-amp-YYEncodingGetType"><span class="toc-number">2.1.2.</span> <span class="toc-text">YYEncodingType && YYEncodingGetType</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassMethodInfo-objc-method"><span class="toc-number">2.2.</span> <span class="toc-text">YYClassMethodInfo (objc_method)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassPropertyInfo-objc-property-t"><span class="toc-number">2.3.</span> <span class="toc-text">YYClassPropertyInfo (objc_property_t)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassInfo-objc-class"><span class="toc-number">2.4.</span> <span class="toc-text">YYClassInfo (objc_class)</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="《YYModel-源码解析（一）之-YYClassInfo》"><a href="#《YYModel-源码解析（一）之-YYClassInfo》" class="headerlink" title="《YYModel 源码解析（一）之 YYClassInfo》"></a>《YYModel 源码解析（一）之 YYClassInfo》</h1><p>YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。</p>
+		<p>YYModel 是一个非常轻量级的 JSON 模型自动转换库，在其轻量级的代码下还保留着自动类型转换，类型安全，无侵入等特性，并且具有接近手写解析代码的超高性能。</p>
 <p><img src="/images/15580026777096.jpg" alt="-w692"></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>打开源码，只有 5 个文件，可以说是非常轻量了，这样对于我们来查看学习源码是非常方便的。<br><img src="/images/15580026866143.jpg" alt="-w236"></p>
 <p>YYModel.h 为调入的头文件，具体看 YYClassInfo     和 NSObject+YYModel 2 个模块即可。</p>
@@ -260,7 +266,7 @@ YYModel.h 为调入的头文件，具体看 YYClassInfo     和">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#《YYModel-源码解析（一）之-YYClassInfo》"><span class="toc-number">1.</span> <span class="toc-text">《YYModel 源码解析（一）之 YYClassInfo》</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YYClassInfo"><span class="toc-number">1.2.</span> <span class="toc-text">YYClassInfo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassIvarInfo-objc-ivar"><span class="toc-number">1.2.1.</span> <span class="toc-text">YYClassIvarInfo (objc_ivar)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#objc-ivar"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">objc_ivar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#YYEncodingType-amp-amp-YYEncodingGetType"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">YYEncodingType && YYEncodingGetType</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassMethodInfo-objc-method"><span class="toc-number">1.2.2.</span> <span class="toc-text">YYClassMethodInfo (objc_method)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassPropertyInfo-objc-property-t"><span class="toc-number">1.2.3.</span> <span class="toc-text">YYClassPropertyInfo (objc_property_t)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassInfo-objc-class"><span class="toc-number">1.2.4.</span> <span class="toc-text">YYClassInfo (objc_class)</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YYClassInfo"><span class="toc-number">2.</span> <span class="toc-text">YYClassInfo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassIvarInfo-objc-ivar"><span class="toc-number">2.1.</span> <span class="toc-text">YYClassIvarInfo (objc_ivar)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#objc-ivar"><span class="toc-number">2.1.1.</span> <span class="toc-text">objc_ivar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#YYEncodingType-amp-amp-YYEncodingGetType"><span class="toc-number">2.1.2.</span> <span class="toc-text">YYEncodingType && YYEncodingGetType</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassMethodInfo-objc-method"><span class="toc-number">2.2.</span> <span class="toc-text">YYClassMethodInfo (objc_method)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassPropertyInfo-objc-property-t"><span class="toc-number">2.3.</span> <span class="toc-text">YYClassPropertyInfo (objc_property_t)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YYClassInfo-objc-class"><span class="toc-number">2.4.</span> <span class="toc-text">YYClassInfo (objc_class)</span></a></li></ol></li></ol>
  
   </div>
 
