@@ -4,29 +4,30 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>MySql on macOS 安装和配置 | DevZhang的博客小屋</title>
+    <title>mac 配置 Java 环境 | DevZhang的博客小屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="CSAMEN">
     
 
     
-    <meta name="description" content="MySql 安装可以通过 dmg 安装包来安装，也可以通过命令行来安装，这里的话我选择安装包安装，版本的话有 5.5，5.6，5.7，8.0，这里直接用最新的 8.0
-安装 MySql直接参考 MySql 的官方文档，下载地址按步骤点就完事了，这就是安装包的方便了，哈哈（这里会在安装的时候要求输入数据库密码 对应 root 用户）
-设置环境变量1export PATH=$&amp;#123;PATH&amp;#1">
+    <meta name="description" content="说道配置 Java 环境，首先说道的就是下载 JDK，那么 JDK 是什么呢？
+JDK 相关概念什么是 JDK？Java Development Kit (JDK) 是 SUN 公司针对 Java 开发人员发布的免费的软件开发工具包（SDK，Software development kit）。另外我们还经常会听到另外一个概念 JRE，这又是什么呢？ JRE (Java Runtime Enviro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySql on macOS 安装和配置">
-<meta property="og:url" content="http://yoursite.com/2019/05/24/MySql on macOS 安装和配置/index.html">
+<meta property="og:title" content="mac 配置 Java 环境">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/mac 配置 Java 环境/index.html">
 <meta property="og:site_name" content="DevZhang的博客小屋">
-<meta property="og:description" content="MySql 安装可以通过 dmg 安装包来安装，也可以通过命令行来安装，这里的话我选择安装包安装，版本的话有 5.5，5.6，5.7，8.0，这里直接用最新的 8.0
-安装 MySql直接参考 MySql 的官方文档，下载地址按步骤点就完事了，这就是安装包的方便了，哈哈（这里会在安装的时候要求输入数据库密码 对应 root 用户）
-设置环境变量1export PATH=$&amp;#123;PATH&amp;#1">
-<meta property="og:updated_time" content="2019-05-24T15:51:12.703Z">
+<meta property="og:description" content="说道配置 Java 环境，首先说道的就是下载 JDK，那么 JDK 是什么呢？
+JDK 相关概念什么是 JDK？Java Development Kit (JDK) 是 SUN 公司针对 Java 开发人员发布的免费的软件开发工具包（SDK，Software development kit）。另外我们还经常会听到另外一个概念 JRE，这又是什么呢？ JRE (Java Runtime Enviro">
+<meta property="og:image" content="http://yoursite.com/images/15588825450239.jpg">
+<meta property="og:image" content="http://yoursite.com/images/15588825540156.jpg">
+<meta property="og:image" content="http://yoursite.com/images/15588825621284.jpg">
+<meta property="og:updated_time" content="2019-05-26T14:56:03.740Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySql on macOS 安装和配置">
-<meta name="twitter:description" content="MySql 安装可以通过 dmg 安装包来安装，也可以通过命令行来安装，这里的话我选择安装包安装，版本的话有 5.5，5.6，5.7，8.0，这里直接用最新的 8.0
-安装 MySql直接参考 MySql 的官方文档，下载地址按步骤点就完事了，这就是安装包的方便了，哈哈（这里会在安装的时候要求输入数据库密码 对应 root 用户）
-设置环境变量1export PATH=$&amp;#123;PATH&amp;#1">
+<meta name="twitter:title" content="mac 配置 Java 环境">
+<meta name="twitter:description" content="说道配置 Java 环境，首先说道的就是下载 JDK，那么 JDK 是什么呢？
+JDK 相关概念什么是 JDK？Java Development Kit (JDK) 是 SUN 公司针对 Java 开发人员发布的免费的软件开发工具包（SDK，Software development kit）。另外我们还经常会听到另外一个概念 JRE，这又是什么呢？ JRE (Java Runtime Enviro">
+<meta name="twitter:image" content="http://yoursite.com/images/15588825450239.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="DevZhang的博客小屋" type="application/atom+xml">
@@ -82,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/05/24/MySql on macOS 安装和配置/" title="MySql on macOS 安装和配置" itemprop="url">MySql on macOS 安装和配置</a>
+      <a href="/2019/05/26/mac 配置 Java 环境/" title="mac 配置 Java 环境" itemprop="url">mac 配置 Java 环境</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="CSAMEN" target="_blank" itemprop="author">CSAMEN</a>
 		
   <p class="article-time">
-    <time datetime="2019-05-24T15:46:10.000Z" itemprop="datePublished"> 发表于 2019-05-24</time>
+    <time datetime="2019-05-26T14:54:30.000Z" itemprop="datePublished"> 发表于 2019-05-26</time>
     
   </p>
 </header>
@@ -98,28 +99,49 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-MySql"><span class="toc-number">1.</span> <span class="toc-text">安装 MySql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置环境变量"><span class="toc-number">2.</span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些基础的操作"><span class="toc-number">3.</span> <span class="toc-text">一些基础的操作</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-相关概念"><span class="toc-number">1.</span> <span class="toc-text">JDK 相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-JDK？"><span class="toc-number">1.1.</span> <span class="toc-text">什么是 JDK？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-中包含的组件"><span class="toc-number">1.2.</span> <span class="toc-text">JDK 中包含的组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-JDK"><span class="toc-number">2.</span> <span class="toc-text">安装 JDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置环境变量"><span class="toc-number">3.</span> <span class="toc-text">配置环境变量</span></a></li></ol>
 		
 		</div>
 		
-		<p>MySql 安装可以通过 dmg 安装包来安装，也可以通过命令行来安装，这里的话我选择安装包安装，版本的话有 5.5，5.6，5.7，8.0，这里直接用最新的 8.0</p>
-<h2 id="安装-MySql"><a href="#安装-MySql" class="headerlink" title="安装 MySql"></a>安装 MySql</h2><p>直接参考 <a href="https://dev.mysql.com/doc/mysql-osx-excerpt/8.0/en/osx-installation-pkg.html" target="_blank" rel="external">MySql 的官方文档</a>，<a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">下载地址</a><br>按步骤点就完事了，这就是安装包的方便了，哈哈（这里会在安装的时候要求输入数据库密码 对应 root 用户）</p>
-<h2 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PATH&#125;:/usr/local/mysql/bin</span><br></pre></td></tr></table></figure>
-<p>这里根据自己情况在对应 shell 配置文件中配置，一般是 <strong>bash_profile</strong> 或者 <strong>zshrc</strong> 文件</p>
-<h2 id="一些基础的操作"><a href="#一些基础的操作" class="headerlink" title="一些基础的操作"></a>一些基础的操作</h2><ol>
-<li>登录 mysql 的 root 用户 ：      mysql -u root -p</li>
-<li>修改密码：set password = password(‘123’);</li>
-<li>显示所有数据库：show databases;</li>
-<li>新建数据库：create database mybatis_test;</li>
-<li>删除数据库：drop database mybatis_test;</li>
-<li>使用 mysql 数据库：use mysql;</li>
-<li>显示数据中所有的表：show tables;</li>
-<li>创建表：create table user(uid int(10) not null,username varchar(20) not null,password varchar(20),primary key(uid));</li>
-<li>显示创建的表信息：desc user;</li>
-<li>重命名表名：rename table user to usertable;</li>
-<li>删除表：drop table usertable;</li>
-<li>退出：exit; 或者 quit;</li>
-</ol>
+		<p>说道配置 Java 环境，首先说道的就是下载 <strong>JDK</strong>，那么 <strong>JDK</strong> 是什么呢？</p>
+<h2 id="JDK-相关概念"><a href="#JDK-相关概念" class="headerlink" title="JDK 相关概念"></a>JDK 相关概念</h2><h3 id="什么是-JDK？"><a href="#什么是-JDK？" class="headerlink" title="什么是 JDK？"></a>什么是 JDK？</h3><p><strong>Java Development Kit (JDK)</strong> 是 <strong>SUN</strong> 公司针对 Java 开发人员发布的免费的软件开发工具包（SDK，Software development kit）。另外我们还经常会听到另外一个概念 <strong>JRE</strong>，这又是什么呢？ <strong>JRE (Java Runtime Environment)</strong>，Java 运行时环境，那么这两者之前的区别与联系呢？</p>
+<ul>
+<li><strong>JRE</strong>：java 运行时环境，包含了 <strong>JVM</strong>（java 虚拟机）和 java 基础类库，只要有 <strong>JRE</strong> 就可以运行 java 程序了。</li>
+<li><strong>JDK</strong>：java 开发工具包，只要需要编写 java 程序就需要安装 <strong>JDK</strong>，另外 <strong>JDK</strong> 包含了 <strong>JRE</strong></li>
+</ul>
+<h3 id="JDK-中包含的组件"><a href="#JDK-中包含的组件" class="headerlink" title="JDK 中包含的组件"></a>JDK 中包含的组件</h3><ul>
+<li>jre</li>
+<li>javac：编译器，将后缀名为.java的源代码编译成后缀名为“.class”的字节码</li>
+<li>java：运行工具，运行.class的字节码</li>
+<li>jar：打包工具，将相关的类文件打包成一个文件</li>
+<li>javadoc：文档生成器，从源码注释中提取文档，注释需匹配规范</li>
+<li>jdb debugger：调试工具</li>
+<li>jps：显示当前java程序运行的进程状态</li>
+<li>javap：反编译程序</li>
+<li>appletviewer：运行和调试applet程序的工具，不需要使用浏览器</li>
+<li>javah：从Java类生成C头文件和C源文件。这些文件提供了连接胶合，使Java和C代码可进行交互。</li>
+<li>javaws：运行JNLP程序</li>
+<li>extcheck：一个检测jar包冲突的工具</li>
+<li>apt：注释处理工具[3]</li>
+<li>jhat：java堆分析工具</li>
+<li>jstack：栈跟踪程序</li>
+<li>jstat：JVM检测统计工具</li>
+<li>jstatd：jstat守护进程</li>
+<li>jinfo：获取正在运行或崩溃的java程序配置信息</li>
+<li>jmap：获取java进程内存映射信息</li>
+<li>idlj：IDL-to-Java编译器。将IDL语言转化为java文件</li>
+<li>policytool：一个GUI的策略文件创建和管理工具</li>
+<li>jrunscript：命令行脚本运行</li>
+</ul>
+<h2 id="安装-JDK"><a href="#安装-JDK" class="headerlink" title="安装 JDK"></a>安装 JDK</h2><p>直接<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="external">官网</a>下载，这里我选择的旧版本 <strong>JDK8</strong>，需要 Oracle 账号登录才能下载，懒得注册直接网上搜了一个账号搞定~ 具体的安装就没啥说了，点点就完事了</p>
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>在 Mac OS X 10.5 之后，在 /usr/libexec/ 路径下多了一个叫 <strong>java_home</strong> 文件，这是 Mac 上专门用来管理 <strong>JAVA_HOME</strong> 的文件，我们可以靠它轻松得到不同版本的<strong>JAVA_HOME</strong>，如图所示：</p>
+<p><img src="/images/15588825450239.jpg" alt="-w564"></p>
+<p>很明显 /usr/libexec/java_home 直接映射到了路径 /Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home</p>
+<p>所以最后我们只需要在 .zchrc 文件中添加如下指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=$(/usr/libexec/java_home)</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin</span><br></pre></td></tr></table></figure>
+<p><img src="/images/15588825540156.jpg" alt="-w655"></p>
+<p>输入 source .zshrc 使得修改立即生效<br>输入 echo $JAVA_HOME 查看是否能输出刚才配置的路径，成功就代表环境变量已经配置 ok</p>
+<p><img src="/images/15588825621284.jpg" alt="-w536"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -132,7 +154,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2019/05/24/MySql on macOS 安装和配置/" data-title="MySql on macOS 安装和配置 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2019/05/26/mac 配置 Java 环境/" data-title="mac 配置 Java 环境 | DevZhang的博客小屋" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,19 +167,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2019/05/26/mac 配置 Java 环境/" title="mac 配置 Java 环境">
-  <strong>上一篇：</strong><br/>
-  <span>
-  mac 配置 Java 环境</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2019/05/24/《YYModel 源码解析（二）之 NSObject+YYModel》/"  title="《YYModel 源码解析（二）之 NSObject+YYModel》">
+<a href="/2019/05/24/MySql on macOS 安装和配置/"  title="MySql on macOS 安装和配置">
  <strong>下一篇：</strong><br/> 
- <span>《YYModel 源码解析（二）之 NSObject+YYModel》
+ <span>MySql on macOS 安装和配置
 </span>
 </a>
 </div>
@@ -172,7 +186,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-MySql"><span class="toc-number">1.</span> <span class="toc-text">安装 MySql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置环境变量"><span class="toc-number">2.</span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些基础的操作"><span class="toc-number">3.</span> <span class="toc-text">一些基础的操作</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-相关概念"><span class="toc-number">1.</span> <span class="toc-text">JDK 相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-JDK？"><span class="toc-number">1.1.</span> <span class="toc-text">什么是 JDK？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-中包含的组件"><span class="toc-number">1.2.</span> <span class="toc-text">JDK 中包含的组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-JDK"><span class="toc-number">2.</span> <span class="toc-text">安装 JDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置环境变量"><span class="toc-number">3.</span> <span class="toc-text">配置环境变量</span></a></li></ol>
  
   </div>
 
