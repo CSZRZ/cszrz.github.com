@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="DevZhang的博客小屋">
 <meta property="og:description" content="KVC (Key-Value-Coding)KVC 是一种基于 NSKeyValueCoding 非正式协议的机制，能让我们直接使用一个或一串字符串标识符去访问，操作类的属性，对于 KVC ，Cocoa 会自动装箱和开箱标量值,常用的方法：
 12345- (nullable id)valueForKey:(NSString *)key;- (void)setValue:(nullable id)v">
-<meta property="og:updated_time" content="2017-10-20T08:45:33.000Z">
+<meta property="og:updated_time" content="2019-06-03T08:44:35.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVC 和 KVO">
 <meta name="twitter:description" content="KVC (Key-Value-Coding)KVC 是一种基于 NSKeyValueCoding 非正式协议的机制，能让我们直接使用一个或一串字符串标识符去访问，操作类的属性，对于 KVC ，Cocoa 会自动装箱和开箱标量值,常用的方法：
@@ -95,7 +95,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KVC-Key-Value-Coding"><span class="toc-number">1.</span> <span class="toc-text">KVC (Key-Value-Coding)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO-Key-Value-Observing"><span class="toc-number">2.</span> <span class="toc-text">KVO (Key-Value Observing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理"><span class="toc-number">3.</span> <span class="toc-text">实现原理</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KVC-Key-Value-Coding"><span class="toc-number">1.</span> <span class="toc-text">KVC (Key-Value-Coding)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于-KVC-的技术"><span class="toc-number">1.1.</span> <span class="toc-text">基于 KVC 的技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO-Key-Value-Observing"><span class="toc-number">2.</span> <span class="toc-text">KVO (Key-Value Observing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理"><span class="toc-number">3.</span> <span class="toc-text">实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题"><span class="toc-number">3.1.</span> <span class="toc-text">面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）"><span class="toc-number">3.1.1.</span> <span class="toc-text">iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何手动触发KVO"><span class="toc-number">3.1.2.</span> <span class="toc-text">如何手动触发KVO</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
 		
 		</div>
 		
@@ -111,6 +111,12 @@
 </li>
 <li><p>setValue:forUndefinedKey: 处理未定义的键</p>
 </li>
+</ul>
+<h3 id="基于-KVC-的技术"><a href="#基于-KVC-的技术" class="headerlink" title="基于 KVC 的技术"></a>基于 KVC 的技术</h3><ul>
+<li>Key-value observing</li>
+<li>Cocoa bindings</li>
+<li>Core Data</li>
+<li>AppleScript</li>
 </ul>
 <h2 id="KVO-Key-Value-Observing"><a href="#KVO-Key-Value-Observing" class="headerlink" title="KVO (Key-Value Observing)"></a>KVO (Key-Value Observing)</h2><p>KVO 是 Cocoa 提供的一种基于 KVC 的机制，允许一个对象去监听另一个对象的某个属性，当该属性改变时系统会去通知该监听的对象（不是被监听的对象）</p>
 <ol>
@@ -156,10 +162,17 @@
 <li>keyPathsForValuesAffecting<key>的类方法，<key>是依赖于其他值的属性名（首字母大写）</key></key></li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (NSSet *)keyPathsForValuesAffectingFullName &#123;</span><br><span class="line">  return [NSSet setWithObjects:@&quot;lastName&quot;, @&quot;firstName&quot;, nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>对于KVO实现的原理，苹果官方文档描述的比较少，从中只能知道苹果使用了一张叫做isa-swizzling的黑魔法…</p>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>对于KVO实现的原理，苹果官方文档描述的比较少，从中只能知道苹果使用了一张叫做 isa-swizzling 的黑魔法…</p>
 <p>其实，当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类（类名就是在该类的前面加上NSKVONotifying_ 前缀），在这个派生类中重写基类中任何被观察属性的 setter 方法。</p>
 <p>派生类在被重写的 setter 方法实现真正的通知机制，就如前面手动实现键值观察那样，调用willChangeValueForKey:和didChangeValueForKey:方法。这么做是基于设置属性会调用 setter 方法，而通过重写就获得了 KVO 需要的通知机制。当然前提是要通过遵循 KVO 的属性设置方式来变更属性值，如果仅是直接修改属性对应的成员变量，是无法实现 KVO 的。</p>
 <p>同时派生类还重写了 class 方法以“欺骗”外部调用者它就是起初的那个类。然后系统将这个对象的 isa 指针指向这个新诞生的派生类，因此这个对象就成为该派生类的对象了，因而在该对象上对 setter 的调用就会调用重写的 setter，从而激活键值通知机制。此外，派生类还重写了 dealloc 方法来释放资源。</p>
+<p><strong>更详细的原理探究过程可以参考<a href="https://juejin.im/post/5adab70cf265da0b736d37a8" target="_blank" rel="external">这篇博客</a></strong></p>
+<h3 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h3><h4 id="iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）"><a href="#iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）" class="headerlink" title="iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）"></a>iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）</h4><p>当一个对象使用了 KVO 监听，iOS 系统会修改这个对象的 isa 指针，改为指向一个全新的通过 Runtime 动态创建的子类，子类拥有自己的 set 方法实现，set 方法实现内部会顺序调用 willChangeValueForKey 方法、原来的 setter 方法实现、didChangeValueForKey 方法，而 didChangeValueForKey 方法内部又会调用监听器的observeValueForKeyPath:ofObject:change:context:监听方法。</p>
+<h4 id="如何手动触发KVO"><a href="#如何手动触发KVO" class="headerlink" title="如何手动触发KVO"></a>如何手动触发KVO</h4><p>被监听的属性的值被修改时，就会自动触发 KVO。如果想要手动触发 KVO，则需要我们自己调用 willChangeValueForKey 和 didChangeValueForKey 方法即可在不改变属性值的情况下手动触发 KVO，并且这两个方法缺一不可。</p>
+<blockquote>
+<p>2019.6.3 更新</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOImplementation.html" target="_blank" rel="external">Key-Value Observing Programming Guide</a><br><a href="https://juejin.im/post/5adab70cf265da0b736d37a8" target="_blank" rel="external">iOS底层原理总结 - 探寻KVO本质</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -212,7 +225,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KVC-Key-Value-Coding"><span class="toc-number">1.</span> <span class="toc-text">KVC (Key-Value-Coding)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO-Key-Value-Observing"><span class="toc-number">2.</span> <span class="toc-text">KVO (Key-Value Observing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理"><span class="toc-number">3.</span> <span class="toc-text">实现原理</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KVC-Key-Value-Coding"><span class="toc-number">1.</span> <span class="toc-text">KVC (Key-Value-Coding)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于-KVC-的技术"><span class="toc-number">1.1.</span> <span class="toc-text">基于 KVC 的技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO-Key-Value-Observing"><span class="toc-number">2.</span> <span class="toc-text">KVO (Key-Value Observing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理"><span class="toc-number">3.</span> <span class="toc-text">实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题"><span class="toc-number">3.1.</span> <span class="toc-text">面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）"><span class="toc-number">3.1.1.</span> <span class="toc-text">iOS用什么方式实现对一个对象的KVO？（KVO的本质是什么？）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何手动触发KVO"><span class="toc-number">3.1.2.</span> <span class="toc-text">如何手动触发KVO</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
  
   </div>
 
